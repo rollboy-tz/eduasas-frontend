@@ -26,7 +26,4 @@ clean.js
 
 #Development environments
 .env
-
-.env.local
-local-users.txt
 local.txt
