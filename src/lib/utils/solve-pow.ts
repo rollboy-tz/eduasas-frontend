@@ -1,4 +1,7 @@
-import crypto from 'crypto';
+/**
+ * @fileoverview Browser-Compatible Proof-of-Work (PoW) Solver Utility
+ * Uses Native Web Crypto API for lightning-fast SHA-256 hashing in the browser.
+ */
 
 /**
  * Muundo wa majibu ya challenge kutoka kwenye Server API.
@@ -28,34 +31,24 @@ export type PowResult = {
 };
 
 /**
+ * Inafanya SHA-256 hash kwa kutumia Native Web Crypto API ya Browser.
+ * Inaendesha kwa kasi kubwa sana kwenye CPU ya mteja.
+ */
+async function computeSha256(message: string): Promise<string> {
+  const msgBuffer = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/**
  * Inaomba PoW Challenge kutoka Server na kutafuta Jibu (Nonce) kwa kutumia CPU brute-force.
- *
- * Function hii inafaa kutumiwa na Client Scripts (kama vile Node.js au Python wrappers)
- * au Frontend Clients kabla ya kutuma maombi ya usajili au kazi nzito kwenye API.
- *
- * @param {string} [apiUrl="httsp://api.eduasas.co.tz"] - URL ya endpoint inayotoa challenge.
- * @returns {Promise<PowResult>} Inarudisha Promise yenye data ya challenge pamoja na solution iliyopatikana.
  * 
- * @throws {Error} Inatupa Error ikiwa SERVER itashindwa kutoa challenge au ikirudisha HTTP status isiyo OK.
- *
- * @example
- * ```typescript
- * try {
- *   const { challenge, solution } = await solvePow();
- *   console.log(`Imepata solution! Nonce: ${solution.nonce}`);
- *   
- *   // Tuma maombi kwenda kwenye API registration
- *   await registerUser({
- *     challengeId: challenge.challengeId,
- *     nonce: solution.nonce
- *   });
- * } catch (error) {
- *   console.error("PoW Failed:", error);
- * }
- * ```
+ * @param {string} [apiUrl] - URL ya endpoint inayotoa challenge.
+ * @returns {Promise<PowResult>} Inarudisha Promise yenye data ya challenge pamoja na solution.
  */
 export async function solvePow(
-  apiUrl: string = import.meta.env.VITE_API_URL ||  "https://api.eduasas.co.tz"
+  apiUrl: string = import.meta.env.VITE_API_URL || "https://api.eduasas.co.tz"
 ): Promise<PowResult> {
   // 1. Chukua challenge kutoka kwenye server
   const response = await fetch(`${apiUrl}/main/pow-challenge`);
@@ -69,12 +62,13 @@ export async function solvePow(
 
   let nonce = 0;
 
-  // 2. CPU Brute-force Loop kutafuta Nonce sahihi
+  /**
+   * 2. CPU Brute-force Loop kutafuta Nonce sahihi
+   * Tumetumia async/await kwenye crypto.subtle ili kuzuia browser isifunge ukurasa (Main thread freezing).
+   */
   while (true) {
-    const hash = crypto
-      .createHash("sha256")
-      .update(`${challenge.seed}${nonce}`)
-      .digest("hex");
+    const textToHash = `${challenge.seed}${nonce}`;
+    const hash = await computeSha256(textToHash);
 
     if (hash.startsWith(targetPrefix)) {
       return {
