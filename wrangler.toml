@@ -1,8 +1,6 @@
 name = "eduasas-frontend"
 compatibility_date = "2026-09-07"
-
-[site]
-bucket = "dist"
+pages_build_output_dir = "dist"
 
 [env.production]
 vars = { VITE_API_URL = "https://api.eduasas.co.tz" }
