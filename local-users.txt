@@ -1,0 +1,29 @@
+USER NO 1
+Name: Rama Mnachileka
+name: rama@gmail.com
+pass: 
+school
+schooCatg:
+
+USER NO 2
+Name: Jamali Fakihi
+name: jamali@gmail.com
+pass: Jamali-122
+school
+schooCatg:
+
+USER NO 3
+Name: Jamali Hamdi
+name: jamalihamdi@gmail.com
+pass: 
+
+
+USER NO 4
+Name: Dash Edu
+name: dashedu@eduasas.co.tz
+pass: 
+
+USER NO 5
+Name: Rama Mnachileka
+name: rama@gmail.com
+pass: 

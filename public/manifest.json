@@ -1,0 +1,33 @@
+{
+  "name": "EduAsas - AI-powered Multi-school Management System",
+  "short_name": "EduAsas",
+  "description": "Modern school management system in Tanzania. Support multi-school access for all school members. Powered by AI to enhance students wellbeing tracking and administrative efficiency.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8FAFC",
+  "theme_color": "#0033FF",
+  "categories": ["Education", "Productivity", "Business", "Technology", "Software"],
+  "icons": [
+    {
+      "src": "/icons/logo-256.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Docs",
+      "short_name": "Docs",
+      "description": "Access the documentation",
+      "url": "/docs",
+      "icons": [{ "src": "/icons/docs-icon.png", "sizes": "192x192" }]
+    }
+  ]
+}
