@@ -24,6 +24,7 @@ clean.js
 *.sln
 *.sw?
 
-#Development environments
+# Development environments
 .env
 local.txt
+Kazikubwa/
