@@ -288,25 +288,24 @@ function EduDateInput({
       {label && (
         <label
           htmlFor={inputId}
-          className={cn("text-sm font-medium text-gray-900", classNames?.label)}
+          className={cn("text-sm font-medium text-foreground", classNames?.label)}
         >
           {label}
           {required && (
-            <span className="text-red-600 ms-0.5" aria-hidden="true">
+            <span className="text-destructive ms-0.5" aria-hidden="true">
               *
             </span>
           )}
         </label>
       )}
 
-      {/* Hidden input - inasaidia native <form> submit bila JS state ya nje */}
+      {/* Hidden input */}
       {name && <input type="hidden" name={name} value={resolveOutputValue(date, mode, outputFormat)} />}
 
-      {/* Windows11-style: box tambarare + underline inayopanuka kwenye focus, badala ya border pande zote */}
       <div
         className={cn(
-          "w-full transition-colors",
-          disabled && "opacity-60 hover:bg-gray-50"
+          "w-full rounded-lg overflow-hidden transition-colors bg-muted/20 hover:bg-muted/40",
+          disabled && "opacity-60 hover:bg-muted/20"
         )}
       >
         <div
@@ -334,12 +333,12 @@ function EduDateInput({
           )}
         >
           {Icon ? (
-            <Icon size={18} className="shrink-0 text-gray-400" aria-hidden="true" />
+            <Icon size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
           ) : (
-            <CalendarDays size={18} className="shrink-0 text-gray-400" aria-hidden="true" />
+            <CalendarDays size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
           )}
 
-          <span className={cn("flex-1 truncate", displayValue ? "text-gray-900" : "text-gray-400")}>
+          <span className={cn("flex-1 truncate", displayValue ? "text-foreground" : "text-muted-foreground")}>
             {displayValue || placeholder}
           </span>
 
@@ -348,26 +347,23 @@ function EduDateInput({
               type="button"
               onClick={clearValue}
               aria-label={messages.clear}
-              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-gray-400 hover:text-gray-700 transition-colors appearance-none"
+              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-muted-foreground hover:text-foreground transition-colors appearance-none cursor-pointer"
             >
               <X size={15} />
             </button>
           )}
 
           {showSuccess && displayValue && !hasError && (
-            <CheckCircle2 size={17} className="shrink-0 text-green-600" aria-hidden="true" />
+            <CheckCircle2 size={17} className="shrink-0 text-emerald-500" aria-hidden="true" />
           )}
         </div>
 
-        {/* Underline - mstari wa msingi (rest state, umepakwa rangi kutegemea error)
-            + bar inayopanuka toka katikati (active state - inategemea focus/open TU,
-            si error, ili isibadilike ghafla value inapobadilika) */}
         <div className="relative h-[2px] overflow-hidden">
-          <div className={cn("absolute inset-0", hasError ? "bg-red-300" : "bg-primary-300")} />
+          <div className={cn("absolute inset-0", hasError ? "bg-destructive/30" : "bg-border")} />
           <div
             className={cn(
               "absolute left-1/2 top-0 h-full -translate-x-1/2 transition-[width] duration-200 ease-out",
-              hasError ? "bg-red-500" : "bg-blue-600"
+              hasError ? "bg-destructive" : "bg-primary"
             )}
             style={{ width: open || focused ? "100%" : "0%" }}
           />
@@ -392,7 +388,7 @@ function EduDateInput({
               maxHeight: position.maxHeight,
             }}
             className={cn(
-              "z-[9999] overflow-y-auto rounded-lg border border-gray-200 bg-white p-3 shadow-lg",
+              "z-[9999] overflow-y-auto rounded-lg border border-border bg-card text-card-foreground p-3 shadow-xl",
               "animate-[dateinput-pop_0.12s_ease-out]",
               classNames?.popover
             )}
@@ -403,13 +399,13 @@ function EduDateInput({
         )}
 
       {hasError ? (
-        <p id={errorId} role="alert" className={cn("text-xs text-red-600", classNames?.errorText)}>
+        <p id={errorId} role="alert" className={cn("text-xs text-destructive", classNames?.errorText)}>
           {finalError}
         </p>
       ) : successMessage && displayValue && !hasError ? (
-        <p className="text-xs text-green-600">{successMessage}</p>
+        <p className="text-xs text-emerald-500">{successMessage}</p>
       ) : helperText ? (
-        <p id={helperId} className={cn("text-xs text-gray-500", classNames?.helperText)}>
+        <p id={helperId} className={cn("text-xs text-muted-foreground", classNames?.helperText)}>
           {helperText}
         </p>
       ) : null}

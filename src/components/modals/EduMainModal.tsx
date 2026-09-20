@@ -44,56 +44,56 @@ export function EduMainModal({
       {isOpen && (
         <div className="fixed inset-0 z-[1100] flex items-center justify-center p-4 sm:p-6">
 
-          {/* 1. SECURE BACKDROP (Haina 'onClick={onClose}' - Haijifungi hapa) */}
+          {/* 1. Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 backdrop-blur-sm bg-black/5"
+            className="absolute inset-0 backdrop-blur-xs bg-black/40"
           />
 
-          {/* 2. Main CONTAINER */}
+          {/* 2. Main Modal Container */}
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.98 }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 30, scale: 0.98 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className={cn("relative w-full", sizeClasses[size],
-              "border border-slate-200 rounded-3xl shadow-xl overflow-hidden",
+            className={cn(
+              "relative w-full",
+              sizeClasses[size],
+              "border border-border rounded-xl bg-card text-card-foreground shadow-2xl overflow-hidden",
               className
-
             )}
           >
-            {/* TITLE & CLOSING BUTTON AREA */}
+            {/* Title & Close button area */}
             {title ? (
-              <div className="flex items-center justify-between p-4">
-                <h3 className={cn("text-xl font-semibold", titleClassName)}>{title}</h3>
+              <div className="flex items-center justify-between p-4 border-b border-border/50">
+                <h3 className={cn("text-lg font-bold tracking-tight text-foreground", titleClassName)}>{title}</h3>
                 <button
                   onClick={onClose}
                   disabled={isLoading}
-                  className="p-2 rounded-full hover:bg-red-500/20 hover:text-red-500 text-muted-500 transition-all disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
+                  className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-all disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
+                  aria-label="Close modal"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
-
             ) : (
-
-              // CLOSE BUTTON (THE ONLY WAY OUT) WHEN NO TITLE
+              // Close button when no title
               <div className="absolute top-4 right-4 z-[60]">
                 <button
                   onClick={onClose}
                   disabled={isLoading}
-                  className="p-2 rounded-full bg-card hover:bg-red-500/20 hover:text-red-500 text-muted transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                  className="p-1.5 rounded-lg bg-card/80 border border-border/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-all disabled:opacity-20 disabled:cursor-not-allowed"
+                  aria-label="Close modal"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
             )}
 
-            {/* CONTENT WRAPPER */}
-            
-              {children}
+            {/* Content wrapper */}
+            {children}
 
           </motion.div>
         </div>
@@ -101,3 +101,5 @@ export function EduMainModal({
     </AnimatePresence>
   );
 }
+
+export default EduMainModal;

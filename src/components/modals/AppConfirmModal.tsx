@@ -1,22 +1,10 @@
-/**
- * @fileoverview Enterprise Global Confirmation Modal System
- * @author Injinia Rollboy (EduAsas Tech)
- * @version 3.0.0-Enterprise
- */
-
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AlertTriangle, Info } from "lucide-react";
 import { Button, EduMainLoader } from "@/components/atoms";
 
-/**
- * Options for the confirmation action button styling variant.
- */
 export type ConfirmVariant = "danger" | "primary";
 
-/**
- * Interface representing properties required to trigger the confirmation modal.
- */
 export interface ConfirmProps {
   title: string;
   message: string;
@@ -27,17 +15,16 @@ export interface ConfirmProps {
   onCancel?: () => void;
 }
 
-/**
- * @component AppConfirmModal
- * @description 
- * A global, event-driven enterprise confirmation dialog component. Listens to 
- * window custom events (`app:confirm`) to render safety prompts seamlessly anywhere in the app.
- */
 export function AppConfirmModal() {
   const [data, setData] = useState<ConfirmProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Sikiliza tukio la kufungua modal na uwezeshe kitufe cha ESC kwenye keyboard
+  const handleCancel = useCallback(() => {
+    if (isLoading) return;
+    if (data?.onCancel) data.onCancel();
+    setData(null);
+  }, [isLoading, data]);
+
   useEffect(() => {
     const handleEvent = (e: CustomEvent<ConfirmProps>) => {
       setData(e.detail);
@@ -57,15 +44,9 @@ export function AppConfirmModal() {
       window.removeEventListener("app:confirm", handleEvent as EventListener);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isLoading]);
+  }, [isLoading, handleCancel]);
 
   if (!data) return null;
-
-  const handleCancel = () => {
-    if (isLoading) return;
-    if (data.onCancel) data.onCancel();
-    setData(null);
-  };
 
   const handleConfirm = async () => {
     try {
@@ -83,43 +64,45 @@ export function AppConfirmModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[998] flex items-center justify-center bg-black/5 backdrop-blur-md p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[998] flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 animate-in fade-in duration-200"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white border border-slate-50 rounded-lg shadow-2xl w-full max-w-md p-6 animate-in zoom-in-95 duration-200">
+      <div className="bg-card text-card-foreground border border-border rounded-xl shadow-2xl w-full max-w-md p-6 animate-in zoom-in-95 duration-200">
         <div className="flex flex-col items-center justify-center gap-4">
 
           {/* Header */}
-          <div className="w-full flex items-center gap-2">
-            {/* Icon Badge kulingana na Variant */}
-
+          <div className="w-full flex items-center gap-3">
             <div className={cn(
-              "p-2.5 rounded-full  shrink-0", variant === "danger" ? "bg-red-100 text-red-700" : "bg-blue-100 text-blue-700")}>
-              {variant === "danger" ? (<AlertTriangle size={25} />) : (<Info size={25} />)}
+              "p-2.5 rounded-full shrink-0",
+              variant === "danger"
+                ? "bg-destructive/15 text-destructive"
+                : "bg-primary/15 text-primary"
+            )}>
+              {variant === "danger" ? <AlertTriangle size={22} /> : <Info size={22} />}
             </div>
 
             <div className="flex-1">
-              <h3 className="font-heading font-black text-lg text-zinc-900 tracking-tight">
+              <h3 className="font-heading font-bold text-lg text-foreground tracking-tight">
                 {data.title}
               </h3>
-
             </div>
           </div>
 
           {/* Body/Message */}
-          <div className="py-1 mb-2">
-            <p className="font-medium text-base md:text-sm text-slate-800">
+          <div className="w-full py-1">
+            <p className="font-normal text-sm text-muted-foreground leading-relaxed">
               {data.message}
             </p>
           </div>
 
-          <div className="w-full flex items-center justify-between md:justify-end gap-3 pt-2 border-t border-border/30">
+          {/* Footer Actions */}
+          <div className="w-full flex items-center justify-between sm:justify-end gap-3 pt-3 border-t border-border/50">
             <Button
               onClick={handleCancel}
               disabled={isLoading}
               variant="secondary"
-              className="flex-1 md:flex-none disabled:opacity-50 text-base font-semibold h-9"
+              className="flex-1 sm:flex-none text-sm font-semibold h-9"
             >
               {data.cancelLabel || "Cancel"}
             </Button>
@@ -128,10 +111,7 @@ export function AppConfirmModal() {
               onClick={handleConfirm}
               disabled={isLoading}
               variant={variant}
-              className={cn(
-                "flex-1 md:flex-none  h-9 inline-flex items-center justify-center gap-2 font-semibold text-base md:text-sm shadow-sm transition-all duration-200 disabled:opacity-50",
-                variant === "danger"
-              )}
+              className="flex-1 sm:flex-none h-9 inline-flex items-center justify-center gap-2 font-semibold text-sm shadow-xs"
             >
               {isLoading && <EduMainLoader size={16} />}
               {data.confirmLabel || "Confirm"}
@@ -143,29 +123,10 @@ export function AppConfirmModal() {
   );
 }
 
-/**
- * **showConfirm**
- * Triggers the global enterprise confirmation dialog from anywhere in the application.
- * 
- * @param {ConfirmProps} props - Configuration options for the modal (title, message, callbacks, variants).
- * 
- * @example
- * ```tsx
- * import { showConfirm } from "@/components/modals/AppConfirmModal";
- * 
- * const handleDeleteSchool = (schoolId: string) => {
- *   showConfirm({
- *     title: "DDelete school?",
- *     message: "Are you sure you want to delete this schoo?"
- *       // API call ya kufuta
- *       await api.deleteSchool(schoolId);
- *     }
- *   });
- * };
- * ```
- */
 export const showConfirm = (props: ConfirmProps) => {
   window.dispatchEvent(
     new CustomEvent("app:confirm", { detail: props })
   );
 };
+
+export default AppConfirmModal;

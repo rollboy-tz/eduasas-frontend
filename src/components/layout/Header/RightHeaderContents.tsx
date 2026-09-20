@@ -1,40 +1,53 @@
-//path: src/components/layout/HeaverV2/RightHeaderContents
-import { useIsMobileView } from "@/lib/store"
-//import { useBadges } from "@/lib/hooks"
-import { useProfilePanel } from "../ProfilePanel"
-import { CommandIcon, Search } from "lucide-react"
+import { useIsMobileView } from "@/lib/store";
+import { useProfilePanel } from "../ProfilePanel";
+import { CommandIcon, Search } from "lucide-react";
 import { FaUser } from "react-icons/fa";
+import { ThemeToggle } from "@/components/elements/ThemeToggle";
 
 export const RightHeaderContents = () => {
-    const isMobile = useIsMobileView();
-    //const { hasAnyPending } = useBadges();
-    const { toggleProfilePanel } = useProfilePanel();
-    return (
-        <div className="flex items-center gap-3">
+  const isMobile = useIsMobileView();
+  const { toggleProfilePanel } = useProfilePanel();
 
-            {/* Serch togggle point */}
-            <button className="flex items-center h-7 gap-1 p-1 rounded-md bg-white shadow-sm">
-                <Search size={19} />
-                {!isMobile && (
-                    <div className="flex items-center gap-5">
-                        <span className="bg-muted-50 text-sm text-muted-500 font-medium text-start font-medium rounded h-6 w-25 p-1">Search...</span>
-                        <div className="flex items-center p-1 gap-1 bg-primary-100 h-5 rounded text-muted-500 font-semibold text-sm">
-                            <CommandIcon size={14} /> <span className="font-semibold text-sm">K</span>
-                        </div>
-                    </div>
-                )}
-            </button>
+  const handleOpenSearch = () => {
+    window.dispatchEvent(new CustomEvent("app:open-search"));
+  };
 
+  return (
+    <div className="flex items-center gap-2 sm:gap-3">
+      {/* Quick Search Trigger */}
+      <button 
+        type="button"
+        onClick={handleOpenSearch}
+        aria-label="Open search"
+        className="flex items-center h-9 gap-2 px-2.5 rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:bg-muted/70 transition-colors shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        <Search size={16} className="text-muted-foreground" />
+        {!isMobile && (
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-muted-foreground font-normal">Search...</span>
+            <div className="flex items-center px-1.5 py-0.5 gap-1 bg-muted rounded border border-border/60 text-muted-foreground font-mono text-[10px]">
+              <CommandIcon size={11} /> <span>K</span>
+            </div>
+          </div>
+        )}
+      </button>
 
-            {/* User avatar point */}
-            <button className="place-items-center bg-white rounded-full shadow-sm gap-1 px-1.5 cursor-pointer"
-                onClick={toggleProfilePanel}
-            >
-                <div className="rounded-full hover:bg-primary-50 text-slate-500 hover:text-slate-800 h-8 w-8">
-                    <FaUser size={23} />
-                </div>
-            </button>
+      {/* Theme Toggle Button */}
+      <ThemeToggle compact />
 
+      {/* User profile toggle */}
+      <button 
+        type="button"
+        className="min-h-[40px] min-w-[40px] flex items-center justify-center bg-card border border-border rounded-full hover:bg-muted transition-colors shadow-2xs cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        onClick={toggleProfilePanel}
+        aria-label="Open profile settings"
+      >
+        <div className="rounded-full text-muted-foreground flex items-center justify-center h-8 w-8">
+          <FaUser size={16} />
         </div>
-    )
-}
+      </button>
+    </div>
+  );
+};
+
+export default RightHeaderContents;

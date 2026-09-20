@@ -1,3 +1,4 @@
+import React from "react";
 import { AdaptiveHeader } from "@/components/elements/AdaptiveHeader";
 import { PublicFooter } from "@/components/elements/PublicFooter";
 import { 
@@ -9,36 +10,34 @@ import {
   FinalCtaSection 
 } from "./_components";
 
-export const LandingPage = () => {
+export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
-      
-      {/* 1. Adaptive Header (Inabadilika rangi inapofanya scroll) */}
+    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary selection:text-primary-foreground">
+      {/* 1. Adaptive Header with Theme Toggle */}
       <AdaptiveHeader />
 
-      {/* 2. Hero Section (Artistic, Modern Dark Theme with Mockup Preview) */}
+      {/* 2. Hero Section */}
       <HeroSection />
 
       {/* 3. Partners / Educational Ecosystem Section */}
       <PartnersSection />
 
-      {/* 4. Core Features Section (Team Workspace, Subdomain Isolation, Authentication) */}
+      {/* 4. Core Features Section */}
       <FeaturesSection />
 
-      {/* 5. User Feedback / Reviews Section */}
+      {/* 5. User Feedback & Testimonials Section */}
       <TestimonialsSection />
 
-      {/* 6. Frequently Asked Questions (FAQ) & Ask a Question Section */}
+      {/* 6. Frequently Asked Questions Section */}
       <FaqSection />
 
-      {/* 7. Final Conversion Call to Action Banner */}
+      {/* 7. Final Conversion Call to Action */}
       <FinalCtaSection />
 
-      {/* 8. Public Footer (Dark w/ Dot Pattern & Rollboy Services Branding) */}
+      {/* 8. Public Footer */}
       <PublicFooter />
-
     </div>
   );
-}
+};
 
 export default LandingPage;

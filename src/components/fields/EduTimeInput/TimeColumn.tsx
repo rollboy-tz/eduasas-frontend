@@ -21,12 +21,6 @@ export function TimeColumn({ items, selected, onSelect, ariaLabel, disabled }: T
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll kwenye item iliyochaguliwa unapofungua popover - mtumiaji
-  // haipaswi kutafuta kwa mkono kila wakati anapofungua time picker.
-  // block:"center" bila padding ya ziada - kwa items zilizo katikati ya
-  // orodha zinatua katikati kabisa; kwa zilizo karibu na mwanzo/mwisho,
-  // scroll inasimama pale inapofika ukingo (BILA kuacha nafasi tupu -
-  // browser inabana scroll position ndani ya mipaka ya content halisi).
   useEffect(() => {
     const index = items.findIndex((item) => item.value === selected);
     if (index >= 0) {
@@ -55,10 +49,10 @@ export function TimeColumn({ items, selected, onSelect, ariaLabel, disabled }: T
             disabled={disabled || item.disabled}
             onClick={() => onSelect(item.value)}
             className={cn(
-              "snap-center shrink-0 flex items-center justify-center w-full h-8 text-sm font-medium rounded-md transition-colors",
-              "text-gray-700 hover:bg-gray-100",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1",
-              isSelected && "bg-blue-600 text-white hover:bg-blue-600 font-semibold",
+              "snap-center shrink-0 flex items-center justify-center w-full h-8 text-sm font-medium rounded-md transition-colors cursor-pointer",
+              "text-foreground hover:bg-muted",
+              "focus-visible:outline-none",
+              isSelected && "bg-primary text-primary-foreground hover:bg-primary font-semibold",
               (disabled || item.disabled) && "opacity-30 cursor-not-allowed hover:bg-transparent"
             )}
           >

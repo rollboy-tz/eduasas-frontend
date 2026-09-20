@@ -25,9 +25,6 @@ export function MonthPicker({
   max,
   disabled,
 }: MonthPickerProps) {
-  // "Ruka kwenye mwaka" - muhimu kwa mfano wa tarehe ya kuzaliwa (mtu wa
-  // miaka 20+) ambapo kubonyeza prev/next mara nyingi ni kuchosha.
-  // Bofya jina la mwaka -> orodha ya miaka 12 kwa wakati mmoja.
   const [yearJump, setYearJump] = useState(false);
   const [yearRangeAnchor, setYearRangeAnchor] = useState(viewYear);
 
@@ -69,7 +66,7 @@ export function MonthPicker({
           disabled={disabled}
           onClick={() => onYearChange(viewYear - 1)}
           aria-label="Previous year"
-          className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition disabled:opacity-40"
+          className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition disabled:opacity-40 cursor-pointer"
         >
           <ChevronLeft size={17} />
         </button>
@@ -82,7 +79,7 @@ export function MonthPicker({
             setYearJump(true);
           }}
           aria-label={`${viewYear}, choose a different year`}
-          className="text-sm font-semibold text-gray-900 hover:text-blue-600 rounded px-2 py-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="text-sm font-semibold text-foreground hover:text-primary rounded px-2 py-0.5 transition-colors focus-visible:outline-none cursor-pointer"
         >
           {viewYear}
         </button>
@@ -92,7 +89,7 @@ export function MonthPicker({
           disabled={disabled}
           onClick={() => onYearChange(viewYear + 1)}
           aria-label="Next year"
-          className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition disabled:opacity-40"
+          className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition disabled:opacity-40 cursor-pointer"
         >
           <ChevronRight size={17} />
         </button>
@@ -112,14 +109,14 @@ export function MonthPicker({
               aria-selected={isSelected}
               onClick={() => onChange(new Date(viewYear, index, 1))}
               className={cn(
-                "rounded-md py-2 text-xs font-medium transition-colors text-gray-700",
-                "hover:bg-gray-100",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1",
-                isSelected && "bg-blue-600 text-white hover:bg-blue-600",
+                "rounded-md py-2 text-xs font-medium transition-colors cursor-pointer",
+                "text-foreground hover:bg-muted",
+                "focus-visible:outline-none",
+                isSelected && "bg-primary text-primary-foreground hover:bg-primary font-semibold",
                 isDisabled && "opacity-30 cursor-not-allowed hover:bg-transparent"
               )}
             >
-              {month.slice(0, 3)}
+              {month}
             </button>
           );
         })}

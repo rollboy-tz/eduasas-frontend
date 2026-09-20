@@ -1,32 +1,11 @@
+"use client";
 
-import type { ReactNode } from "react";
+import { useSidebar } from "../context";
+import { SIDEBAR_WIDTH } from "../constants";
 import { cn } from "@/lib/utils";
-import { SIDEBAR_WIDTH } from "../SidebarRules";
-import { useSidebar } from "../useSidebar";
-
-/**
- * ============================================================================
- * EduAsas Sidebar V2 - Sidebar Shell
- * ============================================================================
- *
- * Container ya muonekano (Visual container) ya Sidebar V2.
- *
- * Majukumu (Responsibilities):
- * - Kuweka nafasi (Positioning) na kusimamia upana (Width handling).
- * - Ku-render muundo wa Docked au Floating kulingana na mazingira.
- * - Kusimamia mionekano ya responsive visibility na animations.
- *
- * Haitawali (Non-responsibilities):
- * - State mutations.
- * - Navigation logic au Permissions.
- *
- * @version 2.1.0
- */
 
 interface SidebarShellProps {
-  /** Maudhui yatakayokuwa ndani ya shell ya sidebar. */
-  children: ReactNode;
-  /** Custom Tailwind CSS classes. */
+  children: React.ReactNode;
   className?: string;
 }
 
@@ -37,29 +16,27 @@ export function SidebarShell({ children, className }: SidebarShellProps) {
   const isFloating = variant === "floating";
 
   const sWidth = size === "expanded" ? SIDEBAR_WIDTH.expanded : SIDEBAR_WIDTH.minimal;
-
   const width = isFloating ? sWidth + 40 : sWidth;
-
   const shouldHide = device === "mobile" && isFloating && !isOpen;
 
   return (
     <aside
       style={{ width }}
       className={cn(
-        "z-50 flex flex-col bg-white backdrop-blur-xs",
+        "z-50 flex flex-col bg-card text-card-foreground",
         "transition-[width,transform] duration-300 ease-out",
 
         // Docked Mode Layout
-        isDocked && "fixed left-0 inset-y-0 border-r border-slate-100 bg-gray-100/60",
+        isDocked && "fixed left-0 inset-y-0 border-r border-border bg-card/95 backdrop-blur-md",
 
         // Floating Mode Layout
-        isFloating && "fixed left-3 top-2 bottom-2 rounded-xl bg-white/90 shadow-2xl",
+        isFloating && "fixed left-3 top-2 bottom-2 rounded-xl bg-card/95 border border-border shadow-xl backdrop-blur-md",
 
-        // Hide animation kwa ajili ya mobile drawer
+        // Mobile drawer slide-out animation
         shouldHide && "-translate-x-[120%]",
 
         // Mobile responsiveness adjustment
-        device === "mobile" && "max-w-[calc(100vw-32px)]",
+        device === "mobile" && "max-w-[calc(100vw-32px)] shadow-2xl",
 
         className
       )}
@@ -68,3 +45,5 @@ export function SidebarShell({ children, className }: SidebarShellProps) {
     </aside>
   );
 }
+
+export default SidebarShell;

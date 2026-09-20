@@ -1,122 +1,123 @@
 import React, { useState, useEffect } from "react";
-import { Globe, ArrowRight, Menu, X } from "lucide-react";
-import { Button } from "@/components/atoms";
+import { ArrowRight, Menu, X } from "lucide-react";
+import { EduButton } from "@/components/elements/EduButton";
+import { EduAsasLogo } from "@/components/elements/EduasasLogo";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 export const AdaptiveHeader: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Fuatilia scroll ya mtumiaji ili kubadilisha mandhari ya header kiotomatiki
+  // Monitor user scroll to refine elevation
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 16);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <header
+      id="main-adaptive-header"
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b",
-        isScrolled 
-        ? "bg-zinc-900/70 backdrop-blur-md border-zinc-800/80 text-white shadow-lg"
-        : "bg-white/90 backdrop-blur-md border-zinc-200/80 text-zinc-900" )}
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b backdrop-blur-md",
+        isScrolled
+          ? "bg-background/90 border-border shadow-xs"
+          : "bg-background/75 border-border/50"
+      )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-15 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* 1. Logo & Enterprise Brand */}
+        {/* Brand Logo & Name */}
         <div 
-          className="flex items-center gap-3 cursor-pointer group" 
+          id="header-brand-logo"
+          role="button"
+          tabIndex={0}
+          className="flex items-center cursor-pointer select-none group min-h-[44px] focus:outline-none"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
         >
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-300 group-hover:scale-105 ${
-            isScrolled 
-              ? "bg-blue-600/20 border-blue-500/40 text-blue-400 shadow-inner" 
-              : "bg-blue-600/10 border-blue-500/20 text-blue-600 shadow-sm"
-          }`}>
-            <Globe className="w-5 h-5" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-tight flex items-center gap-1.5">
-              EduAsas
-            </span>
-          </div>
+          <EduAsasLogo 
+            imageWidth={34} 
+            imageHeight={34} 
+            titleClasses="text-lg font-bold tracking-tight ml-2 flex items-center"
+            eduClasses="text-foreground"
+            asasClasses="text-primary"
+          />
         </div>
 
-        {/* 2. Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+        {/* Desktop Navigation Links */}
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-7 text-sm font-medium">
           <a 
             href="#features" 
-            className={`transition-colors duration-200 hover:opacity-100 ${
-              isScrolled ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-zinc-900"
-            }`}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-150 py-1"
           >
             Features
           </a>
           <a 
             href="#grading" 
-            className={`transition-colors duration-200 hover:opacity-100 ${
-              isScrolled ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-zinc-900"
-            }`}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-150 py-1"
           >
             Grading Rules
           </a>
           <a 
             href="#pricing" 
-            className={`transition-colors duration-200 hover:opacity-100 ${
-              isScrolled ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-zinc-900"
-            }`}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-150 py-1"
           >
             Pricing
           </a>
           <a 
             href="#about" 
-            className={`transition-colors duration-200 hover:opacity-100 ${
-              isScrolled ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-zinc-900"
-            }`}
+            className="text-muted-foreground hover:text-foreground transition-colors duration-150 py-1"
           >
             About
           </a>
         </nav>
 
-        {/* 3. Pro Action Buttons (Sign In & Register School) */}
+        {/* Desktop Actions & Theme Toggle */}
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
+          
           <a href="/login">
-            <Button 
+            <EduButton 
               variant="ghost" 
-              className={`transition-colors duration-200 ${
-                isScrolled 
-                  ? "text-zinc-300 hover:text-white hover:bg-zinc-800/80" 
-                  : "text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100"
-              }`}
+              size="md"
+              className="text-muted-foreground hover:text-foreground hover:bg-muted font-medium min-h-[40px] px-4"
             >
               Sign In
-            </Button>
+            </EduButton>
           </a>
           <a href="/register">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20 font-medium px-5 transition-all duration-200 hover:scale-[1.02]">
-              Get Account <ArrowRight className="w-4 h-4 ml-1.5" />
-            </Button>
+            <EduButton 
+              variant="primary"
+              size="md"
+              icon={ArrowRight}
+              iconPosition="right"
+              className="font-medium px-4 min-h-[40px] border border-primary/20"
+            >
+              Get Account
+            </EduButton>
           </a>
         </div>
 
-        {/* Mobile Menu Trigger Button */}
-        <div className="flex md:hidden">
+        {/* Mobile Header Actions */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle compact />
+
           <button
+            id="mobile-nav-toggle-btn"
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Menu"
-            className={`p-2.5 rounded-xl border transition-colors ${
-              isScrolled 
-                ? "bg-zinc-800/80 border-zinc-700 text-white" 
-                : "bg-zinc-100 border-zinc-200 text-zinc-900"
-            }`}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            className="min-w-[44px] min-h-[44px] p-2.5 rounded-lg border border-border bg-card text-foreground hover:bg-muted transition-colors flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -124,55 +125,65 @@ export const AdaptiveHeader: React.FC = () => {
 
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className={`md:hidden px-6 pt-4 pb-8 border-b transition-all duration-300 shadow-xl ${
-          isScrolled ? "bg-zinc-900 border-zinc-800 text-white" : "bg-white border-zinc-200 text-zinc-900"
-        }`}>
-          <div className="flex flex-col gap-4">
+        <div 
+          id="mobile-nav-menu"
+          className="md:hidden px-5 pt-3 pb-6 border-b border-border bg-background/95 backdrop-blur-md"
+        >
+          <nav aria-label="Mobile Navigation" className="flex flex-col gap-1">
             <a 
               href="#features" 
               onClick={() => setMobileMenuOpen(false)} 
-              className="text-base font-medium py-2 border-b border-zinc-800/40"
+              className="text-sm font-medium py-3 px-2 rounded-md text-foreground hover:bg-muted border-b border-border/40"
             >
               Features
             </a>
             <a 
               href="#grading" 
               onClick={() => setMobileMenuOpen(false)} 
-              className="text-base font-medium py-2 border-b border-zinc-800/40"
+              className="text-sm font-medium py-3 px-2 rounded-md text-foreground hover:bg-muted border-b border-border/40"
             >
               Grading Rules
             </a>
             <a 
               href="#pricing" 
               onClick={() => setMobileMenuOpen(false)} 
-              className="text-base font-medium py-2 border-b border-zinc-800/40"
+              className="text-sm font-medium py-3 px-2 rounded-md text-foreground hover:bg-muted border-b border-border/40"
             >
               Pricing
             </a>
             <a 
               href="#about" 
               onClick={() => setMobileMenuOpen(false)} 
-              className="text-base font-medium py-2"
+              className="text-sm font-medium py-3 px-2 rounded-md text-foreground hover:bg-muted border-b border-border/40"
             >
               About
             </a>
-            <div className="pt-4 flex flex-col gap-3">
+
+            <div className="pt-4 flex flex-col gap-2.5">
               <a href="/login" className="w-full">
-                <Button variant="outline" className="w-full justify-center h-11">Sign In</Button>
+                <EduButton variant="outline" size="md" className="w-full justify-center min-h-[44px] border-border text-foreground hover:bg-muted">
+                  Sign In
+                </EduButton>
               </a>
-              <a href="/schools/create" className="w-full">
-                <Button className="w-full justify-center h-11 bg-blue-600 hover:bg-blue-700 text-white">
-                  Get Account <ArrowRight className="w-4 h-4 ml-1.5" />
-                </Button>
+              <a href="/register" className="w-full">
+                <EduButton 
+                  variant="primary" 
+                  size="md" 
+                  icon={ArrowRight} 
+                  iconPosition="right" 
+                  className="w-full justify-center min-h-[44px] border border-primary/20"
+                >
+                  Get Account
+                </EduButton>
               </a>
             </div>
-          </div>
+          </nav>
         </div>
       )}
     </header>
   );
 };
 
-export default AdaptiveHeader; // Note: fixed syntax typo check below if needed, use export default AdaptiveHeader;
+export default AdaptiveHeader;

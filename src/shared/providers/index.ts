@@ -6,3 +6,4 @@ export * from './SchoolProfileProvider';
 export * from './SystemListener';
 export * from './TenantProvider';
 export * from './WorkspaceProvider';
+export * from './ThemeProvider';

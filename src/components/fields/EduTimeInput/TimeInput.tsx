@@ -270,10 +270,10 @@ export function EduTimeInput({
   return (
     <div className={cn("relative flex flex-col w-full rounded-md overflow-hidden gap-1.5", classNames?.root, className)}>
       {label && (
-        <label htmlFor={inputId} className={cn("text-sm font-medium text-gray-900", classNames?.label)}>
+        <label htmlFor={inputId} className={cn("text-sm font-medium text-foreground", classNames?.label)}>
           {label}
           {required && (
-            <span className="text-red-600 ms-0.5" aria-hidden="true">
+            <span className="text-destructive ms-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -284,8 +284,8 @@ export function EduTimeInput({
 
       <div
         className={cn(
-          "w-full transition-colors",
-          disabled && "opacity-60 hover:bg-gray-50"
+          "w-full rounded-lg overflow-hidden transition-colors bg-muted/20 hover:bg-muted/40",
+          disabled && "opacity-60 hover:bg-muted/20"
         )}
       >
         <div
@@ -313,12 +313,12 @@ export function EduTimeInput({
           )}
         >
           {Icon ? (
-            <Icon size={18} className="shrink-0 text-gray-400" aria-hidden="true" />
+            <Icon size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
           ) : (
-            <Clock size={18} className="shrink-0 text-gray-400" aria-hidden="true" />
+            <Clock size={18} className="shrink-0 text-muted-foreground" aria-hidden="true" />
           )}
 
-          <span className={cn("flex-1 truncate", displayValue ? "text-gray-900" : "text-gray-400")}>
+          <span className={cn("flex-1 truncate", displayValue ? "text-foreground" : "text-muted-foreground")}>
             {displayValue || placeholder}
           </span>
 
@@ -327,7 +327,7 @@ export function EduTimeInput({
               type="button"
               onClick={clearValue}
               aria-label={messages.clear}
-              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-gray-400 hover:text-gray-700 transition-colors appearance-none"
+              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-muted-foreground hover:text-foreground transition-colors appearance-none cursor-pointer"
             >
               <X size={15} />
             </button>
@@ -335,11 +335,11 @@ export function EduTimeInput({
         </div>
 
         <div className="relative h-[2px] overflow-hidden">
-          <div className={cn("absolute inset-0", hasError ? "bg-red-300" : "bg-primary-300")} />
+          <div className={cn("absolute inset-0", hasError ? "bg-destructive/30" : "bg-border")} />
           <div
             className={cn(
               "absolute left-1/2 top-0 h-full -translate-x-1/2 transition-[width] duration-200 ease-out",
-              hasError ? "bg-red-500" : "bg-blue-600"
+              hasError ? "bg-destructive" : "bg-primary"
             )}
             style={{ width: open || focused ? "100%" : "0%" }}
           />
@@ -363,12 +363,12 @@ export function EduTimeInput({
               maxHeight: position.maxHeight,
             }}
             className={cn(
-              "z-[999] flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg",
+              "z-[999] flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-xl",
               "animate-[dateinput-pop_0.12s_ease-out]",
               classNames?.popover
             )}
           >
-            <div className="relative flex divide-x divide-gray-100 px-1">
+            <div className="relative flex divide-x divide-border/50 px-1">
               <TimeColumn items={hourItems} selected={format === "12h" ? currentHour12 : draft.hours} onSelect={selectHour} ariaLabel="Hour" disabled={disabled} />
               <TimeColumn items={minuteItems} selected={draft.minutes} onSelect={selectMinute} ariaLabel="Minute" disabled={disabled} />
               {withSeconds && (
@@ -379,14 +379,14 @@ export function EduTimeInput({
               )}
             </div>
 
-            <div className="flex items-center justify-between gap-2 border-t border-gray-100 p-2">
+            <div className="flex items-center justify-between gap-2 border-t border-border/50 p-2">
               <button
                 type="button"
                 onClick={() => {
                   const now = new Date();
                   commit({ hours: now.getHours(), minutes: now.getMinutes(), seconds: now.getSeconds() });
                 }}
-                className="text-xs font-medium text-blue-600 hover:text-blue-700 transition-colors px-2 py-1 rounded-md hover:bg-gray-50"
+                className="text-xs font-medium text-primary hover:text-primary/80 transition-colors px-2 py-1 rounded-md hover:bg-muted cursor-pointer"
               >
                 {messages.now}
               </button>
@@ -394,7 +394,7 @@ export function EduTimeInput({
               <button
                 type="button"
                 onClick={closePopover}
-                className="text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors px-3 py-1.5 rounded-md"
+                className="text-xs font-semibold text-primary-foreground bg-primary hover:bg-primary/90 transition-colors px-3 py-1.5 rounded-md cursor-pointer"
               >
                 {messages.done}
               </button>
@@ -404,13 +404,13 @@ export function EduTimeInput({
         )}
 
       {hasError ? (
-        <p id={errorId} role="alert" className={cn("text-xs text-red-600", classNames?.errorText)}>
+        <p id={errorId} role="alert" className={cn("text-xs text-destructive", classNames?.errorText)}>
           {finalError}
         </p>
       ) : successMessage && displayValue && !hasError ? (
-        <p className="text-xs text-green-600">{successMessage}</p>
+        <p className="text-xs text-emerald-500">{successMessage}</p>
       ) : helperText ? (
-        <p id={helperId} className={cn("text-xs text-gray-500", classNames?.helperText)}>
+        <p id={helperId} className={cn("text-xs text-muted-foreground", classNames?.helperText)}>
           {helperText}
         </p>
       ) : <div className="w-full h-2 block"></div>}

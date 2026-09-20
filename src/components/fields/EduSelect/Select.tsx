@@ -301,10 +301,10 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
   return (
     <div className={cn("relative flex flex-col w-full gap-1.5 overflow-hidden rounded-md", classNames?.root, className)}>
       {label && (
-        <label htmlFor={inputId} className={cn("text-sm font-medium text-gray-900", classNames?.label)}>
+        <label htmlFor={inputId} className={cn("text-sm font-medium text-foreground", classNames?.label)}>
           {label}
           {required && (
-            <span className="text-red-600 ms-0.5" aria-hidden="true">
+            <span className="text-destructive ms-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -321,7 +321,7 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
 
       <div
         className={cn(
-          "w-full rounded-t-md overflow-hidden transition-colors",
+          "w-full rounded-lg overflow-hidden transition-colors bg-muted/20 hover:bg-muted/40",
           disabled && "opacity-60"
         )}
       >
@@ -352,7 +352,7 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
             classNames?.trigger
           )}
         >
-          <span className={cn("flex-1 truncate", displayText ? "text-gray-900" : "text-gray-400")}>
+          <span className={cn("flex-1 truncate", displayText ? "text-foreground" : "text-muted-foreground")}>
             {displayText || placeholder}
           </span>
 
@@ -361,7 +361,7 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
               type="button"
               onClick={clearSelection}
               aria-label={messages.clear}
-              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-gray-400 hover:text-gray-700 transition-colors appearance-none"
+              className="shrink-0 grid place-items-center p-0 m-0 h-4 w-4 border-0 bg-transparent leading-none text-muted-foreground hover:text-foreground transition-colors appearance-none cursor-pointer"
             >
               <X size={15} />
             </button>
@@ -369,17 +369,17 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
 
           <ChevronDown
             size={18}
-            className={cn("shrink-0 text-gray-400 transition-transform", open && "rotate-180")}
+            className={cn("shrink-0 text-muted-foreground transition-transform", open && "rotate-180")}
             aria-hidden="true"
           />
         </div>
 
         <div className="relative h-[2px] overflow-hidden">
-          <div className={cn("absolute inset-0", hasError ? "bg-red-300" : "bg-primary-300")} />
+          <div className={cn("absolute inset-0", hasError ? "bg-destructive/30" : "bg-border")} />
           <div
             className={cn(
               "absolute left-1/2 top-0 h-full -translate-x-1/2 transition-[width] duration-200 ease-out",
-              hasError ? "bg-red-500" : "bg-blue-600"
+              hasError ? "bg-destructive" : "bg-primary"
             )}
             style={{ width: open || focused ? "100%" : "0%" }}
           />
@@ -404,7 +404,7 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
               maxHeight: position.maxHeight,
             }}
             className={cn(
-              "z-[9999] flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg",
+              "z-[9999] flex flex-col overflow-hidden rounded-lg border border-border bg-card text-card-foreground shadow-xl",
               "animate-[dateinput-pop_0.12s_ease-out]",
               classNames?.popover
             )}
@@ -415,13 +415,13 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder={messages.searchPlaceholder}
-                className="sticky top-0 z-10 w-full border-b border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400"
+                className="sticky top-0 z-10 w-full border-b border-border bg-card px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground"
               />
             )}
 
             <div className="overflow-y-auto py-1">
               {filtered.length === 0 ? (
-                <div className="px-3 py-4 text-center text-sm text-gray-400">{messages.noResults}</div>
+                <div className="px-3 py-4 text-center text-sm text-muted-foreground">{messages.noResults}</div>
               ) : (
                 filtered.map((item, idx) => {
                   const Icon = iconKey ? (item[iconKey] as LucideIcon | undefined) : undefined;
@@ -440,12 +440,12 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
                       onClick={() => choose(item)}
                       onMouseEnter={() => setHighlightedIndex(idx)}
                       className={cn(
-                        "flex w-full items-center justify-between gap-2 px-3 py-2 text-sm text-left transition-colors text-gray-700",
-                        idx === highlightedIndex ? "bg-gray-100" : "hover:bg-gray-50"
+                        "flex w-full items-center justify-between gap-2 px-3 py-2 text-sm text-left transition-colors text-foreground cursor-pointer",
+                        idx === highlightedIndex ? "bg-muted" : "hover:bg-muted/60"
                       )}
                     >
                       <span className="flex items-center gap-2 truncate">
-                        {Icon && <Icon size={16} className="shrink-0 text-gray-400" />}
+                        {Icon && <Icon size={16} className="shrink-0 text-muted-foreground" />}
                         <span className="truncate">{String(item[labelKey])}</span>
                       </span>
 
@@ -453,13 +453,13 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
                         <span
                           className={cn(
                             "flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors",
-                            selected ? "bg-blue-600 border-blue-600" : "border-gray-300"
+                            selected ? "bg-primary border-primary text-primary-foreground" : "border-border"
                           )}
                         >
-                          {selected && <Check size={12} className="text-white" />}
+                          {selected && <Check size={12} />}
                         </span>
                       ) : (
-                        selected && <Check size={16} className="shrink-0 text-blue-600" />
+                        selected && <Check size={16} className="shrink-0 text-primary" />
                       )}
                     </button>
                   );
@@ -471,11 +471,11 @@ function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({
         )}
 
       {hasError ? (
-        <p id={errorId} role="alert" className={cn("text-sm text-red-600", classNames?.errorText)}>
+        <p id={errorId} role="alert" className={cn("text-xs text-destructive", classNames?.errorText)}>
           {finalError}
         </p>
       ) : helperText ? (
-        <p id={helperId} className={cn("text-sm text-gray-500", classNames?.helperText)}>
+        <p id={helperId} className={cn("text-xs text-muted-foreground", classNames?.helperText)}>
           {helperText}
         </p>
       ) : null}

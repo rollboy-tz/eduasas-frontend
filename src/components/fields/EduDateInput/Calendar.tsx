@@ -38,10 +38,6 @@ export function Calendar({
   const { year, month, total, start } = getCalendarGrid(viewDate);
   const today = new Date();
 
-  // "Ruka kwenye mwezi/mwaka" - bila hii, kujaza tarehe ya nyuma (mfano
-  // tarehe ya kuzaliwa) inahitaji kubonyeza "mwezi uliopita" mara nyingi
-  // mno (miaka 20+ ikimaanisha mibofyo 240+). Bofya "August 2026" -> chagua
-  // mwezi + mwaka moja kwa moja -> unarudi kwenye siku ukiwa karibu.
   const [drillIntoMonths, setDrillIntoMonths] = useState(false);
 
   if (drillIntoMonths) {
@@ -82,7 +78,7 @@ export function Calendar({
           disabled={disabled}
           onClick={() => onNavigate(new Date(year, month - 1, 1))}
           aria-label="Previous month"
-          className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition disabled:opacity-40 disabled:pointer-events-none"
+          className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
         >
           <ChevronLeft size={17} />
         </button>
@@ -92,7 +88,7 @@ export function Calendar({
           disabled={disabled}
           onClick={() => setDrillIntoMonths(true)}
           aria-label={`${MONTHS_FULL[month]} ${year}, choose a different month or year`}
-          className="text-sm font-semibold text-gray-900 hover:text-blue-600 rounded px-2 py-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+          className="text-sm font-semibold text-foreground hover:text-primary rounded px-2 py-0.5 transition-colors focus-visible:outline-none cursor-pointer"
         >
           {MONTHS_FULL[month]} {year}
         </button>
@@ -102,7 +98,7 @@ export function Calendar({
           disabled={disabled}
           onClick={() => onNavigate(new Date(year, month + 1, 1))}
           aria-label="Next month"
-          className="h-8 w-8 flex items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition disabled:opacity-40 disabled:pointer-events-none"
+          className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
         >
           <ChevronRight size={17} />
         </button>
@@ -115,7 +111,7 @@ export function Calendar({
             <div
               key={day}
               role="columnheader"
-              className="text-center text-[11px] font-medium text-gray-400 py-1"
+              className="text-center text-[11px] font-medium text-muted-foreground py-1"
             >
               {day}
             </div>
@@ -123,9 +119,6 @@ export function Calendar({
         </div>
 
         <div className="grid grid-cols-7 grid-rows-6 gap-1" role="rowgroup">
-          {/* Leading spacers - kuweka siku ya kwanza mahali pake sahihi wiki-ni.
-              aspect-square ni muhimu: bila hiyo, safu inayojumuisha spacers pekee
-              ingeporomoka (0 height) na kubadilisha ukubwa wa calendar kati ya mwezi na mwezi. */}
           {Array.from({ length: start }).map((_, i) => (
             <div key={`lead-${i}`} aria-hidden="true" className="aspect-square" />
           ))}
@@ -147,13 +140,11 @@ export function Calendar({
                   aria-label={cellDate.toDateString()}
                   onClick={() => selectDay(day)}
                   className={cn(
-                    // w-full + max-w - kitufe kinafuata upana wa column (responsive),
-                    // hakizidi 36px kwenye skrini kubwa - hakiwahi kusababisha overflow-x
-                    "w-full max-w-[36px] aspect-square rounded-md text-xs font-medium transition-colors",
-                    "text-gray-700 hover:bg-gray-100",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-1",
-                    isToday && !isSelected && "text-blue-600 font-semibold",
-                    isSelected && "bg-blue-600 text-white hover:bg-blue-600",
+                    "w-full max-w-[36px] aspect-square rounded-md text-xs font-medium transition-colors cursor-pointer",
+                    "text-foreground hover:bg-muted",
+                    "focus-visible:outline-none",
+                    isToday && !isSelected && "text-primary font-bold border border-primary/40",
+                    isSelected && "bg-primary text-primary-foreground hover:bg-primary font-semibold",
                     isDisabled && "opacity-30 cursor-not-allowed hover:bg-transparent"
                   )}
                 >
@@ -163,8 +154,6 @@ export function Calendar({
             );
           })}
 
-          {/* Trailing spacers - daima jumla ya seli ni 42 (safu 6) ili calendar isibadilike
-              ukubwa kati ya mwezi na mwezi (baadhi ya miezi ina wiki 4, mingine 6) */}
           {Array.from({ length: Math.max(0, 42 - start - total) }).map((_, i) => (
             <div key={`trail-${i}`} aria-hidden="true" className="aspect-square" />
           ))}
@@ -179,7 +168,7 @@ export function Calendar({
           onNavigate(new Date(today.getFullYear(), today.getMonth(), 1));
           onChange(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
         }}
-        className="mt-3 w-full rounded-md bg-gray-50 py-1.5 text-xs font-medium text-blue-600 hover:bg-gray-100 transition disabled:opacity-40 disabled:pointer-events-none"
+        className="mt-3 w-full rounded-md bg-muted/50 py-1.5 text-xs font-medium text-primary hover:bg-muted transition disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
       >
         {messages.today}
       </button>

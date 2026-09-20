@@ -16,3 +16,4 @@ export * from './empty-state';
 export * from './global-search';
 export * from './smart-flex-table';
 export * from './smart-responsive-list';
+export * from './ThemeToggle';

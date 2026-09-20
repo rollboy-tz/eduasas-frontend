@@ -1,9 +1,3 @@
-/**
- * @file AdaptiveTabs.tsx
- * @description Enterprise-grade adaptive navigation component featuring gradient fade masks,
- * smooth horizontal scrolling, minimal chevron overlays, and full mouse/touch drag-to-scroll support.
- */
-
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib";
@@ -24,7 +18,7 @@ interface AdaptiveTabsProps {
   className?: string;
   tabBtnClassName?: string;
   activeTabClassName?: string;
-  tabsWrapperClassName?: string,
+  tabsWrapperClassName?: string;
   dropdownTriggerClassName?: string;
 }
 
@@ -40,10 +34,11 @@ export function AdaptiveTabs({
   tabsWrapperClassName,
   dropdownTriggerClassName,
 }: AdaptiveTabsProps) {
-  const [windowMobile, setWindowMobile] = useState<boolean>(window.innerWidth < breakpoint);
+  const [windowMobile, setWindowMobile] = useState<boolean>(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   
-  // References na States kwa ajili ya Scroll na Drag-to-Scroll (Mouse & Touch)
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftScroll, setShowLeftScroll] = useState<boolean>(false);
   const [showRightScroll, setShowRightScroll] = useState<boolean>(false);
@@ -88,7 +83,7 @@ export function AdaptiveTabs({
     el.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  // ================= DRAG TO SCROLL (MOUSE & TOUCH) HANDLERS =================
+  // Drag-to-scroll handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     const el = scrollContainerRef.current;
     if (!el) return;
@@ -103,7 +98,7 @@ export function AdaptiveTabs({
     if (!el) return;
     e.preventDefault();
     const x = e.pageX - el.offsetLeft;
-    const walk = (x - startX) * 1.5; // Kasi ya kuvuta (Multiplier)
+    const walk = (x - startX) * 1.5;
     el.scrollLeft = scrollLeftState - walk;
   };
 
@@ -114,29 +109,29 @@ export function AdaptiveTabs({
   return (
     <div className={cn("w-full", className)}>
       {mobileView ? (
-        /* ================= MOBILE VIEW: DROPDOWN SELECTOR ================= */
+        /* Mobile Dropdown Selector */
         <div className="relative w-full">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className={cn(
-              "w-full flex items-center justify-between bg-white border border-gray-200/90 hover:border-gray-300",
-              "text-gray-800 text-sm font-medium px-4 py-2.5 rounded-xl shadow-2xs transition-all cursor-pointer",
+              "w-full flex items-center justify-between bg-card border border-border hover:border-border/80",
+              "text-foreground text-sm font-medium px-4 py-2.5 rounded-lg shadow-2xs transition-all cursor-pointer",
               dropdownTriggerClassName
             )}
           >
             <div className="flex items-center gap-2.5 truncate">
               {currentTabObj?.icon && (
-                <span className="text-gray-500 shrink-0">{currentTabObj.icon}</span>
+                <span className="text-muted-foreground shrink-0">{currentTabObj.icon}</span>
               )}
               <span className="truncate">{currentTabObj?.label}</span>
             </div>
-            <ChevronDown className={cn("w-4 h-4 text-gray-400 transition-transform duration-200 shrink-0", dropdownOpen && "rotate-180")} />
+            <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform duration-200 shrink-0", dropdownOpen && "rotate-180")} />
           </button>
 
           {dropdownOpen && (
             <>
               <div className="fixed inset-0 z-20" onClick={() => setDropdownOpen(false)} />
-              <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-lg z-30 overflow-hidden py-1 divide-y divide-gray-50">
+              <div className="absolute top-full left-0 right-0 mt-1.5 bg-card border border-border rounded-lg shadow-xl z-30 overflow-hidden py-1 divide-y divide-border/50">
                 {tabs.map((tab) => {
                   const isActive = tab.id === activeTab;
                   return (
@@ -148,19 +143,19 @@ export function AdaptiveTabs({
                       }}
                       className={cn(
                         "w-full flex items-center justify-between px-4 py-2.5 text-xs sm:text-sm font-medium text-left transition-colors cursor-pointer",
-                        isActive ? "bg-gray-100/80 text-gray-900 font-semibold" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        isActive ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                       )}
                     >
                       <div className="flex items-center gap-2.5 truncate">
                         {tab.icon && (
-                          <span className={isActive ? "text-gray-900" : "text-gray-400"}>
+                          <span className={isActive ? "text-primary" : "text-muted-foreground"}>
                             {tab.icon}
                           </span>
                         )}
                         <span className="truncate">{tab.label}</span>
                       </div>
                       {tab.badge !== undefined && (
-                        <span className="ml-2 px-2 py-0.5 text-[10px] bg-gray-100 text-gray-600 rounded-full font-mono">
+                        <span className="ml-2 px-2 py-0.5 text-[10px] bg-muted text-muted-foreground rounded-full font-mono">
                           {tab.badge}
                         </span>
                       )}
@@ -172,24 +167,22 @@ export function AdaptiveTabs({
           )}
         </div>
       ) : (
-        /* ================= DESKTOP VIEW: DRAGGABLE, SCROLLABLE & FADED TABS ================= */
+        /* Desktop View: Tabs with scroll and fade */
         <div className="relative flex items-center w-full min-w-0 group">
           
-          {/* Left Gradient Fade & Minimal Chevron Indicator */}
           {showLeftScroll && (
-            <div className="absolute left-0 inset-y-0 z-10 flex items-center pl-0.5 pr-3 bg-gradient-to-r from-gray-200/97 via-gray-200/85 to-transparent pointer-events-none rounded-l-xl">
+            <div className="absolute left-0 inset-y-0 z-10 flex items-center pl-1 pr-3 bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none rounded-l-lg">
               <button
                 type="button"
                 onClick={() => scrollTabs("left")}
-                className="text-gray-600 hover:text-gray-900 transition-colors pointer-events-auto cursor-pointer focus:outline-none"
+                className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto cursor-pointer focus:outline-none"
                 aria-label="Scroll left"
               >
-                <ChevronLeft className="w-4 h-4 stroke-[3]" />
+                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           )}
 
-          {/* Scrollable & Draggable Container */}
           <div 
             ref={scrollContainerRef}
             onScroll={checkScrollPosition}
@@ -198,7 +191,7 @@ export function AdaptiveTabs({
             onMouseUp={handleMouseUpOrLeave}
             onMouseLeave={handleMouseUpOrLeave}
             className={cn(
-              "flex items-center gap-1 overflow-x-auto scrollbar-none bg-gray-200/50 border border-gray-100 p-0.5 rounded-xl w-full min-w-0 scroll-smooth select-none",
+              "flex items-center gap-1 overflow-x-auto scrollbar-none bg-muted/40 border border-border/60 p-1 rounded-lg w-full min-w-0 scroll-smooth select-none",
               isDragging ? "cursor-grabbing" : "cursor-grab", tabsWrapperClassName
             )}
           >
@@ -209,19 +202,18 @@ export function AdaptiveTabs({
                   key={tab.id}
                   type="button"
                   onClick={() => {
-                    // Zuia click kufanyika kama mtumiaji alikuwa anafanya drag (kuvuta)
                     if (isDragging) return;
                     onChange(tab.id);
                   }}
                   className={cn(
-                    "inline-flex items-center gap-2 py-2 px-3.5 rounded-lg font-medium text-sm sm:text-sm transition-all whitespace-nowrap shrink-0 cursor-pointer",
+                    "inline-flex items-center gap-2 py-1.5 px-3 rounded-md font-medium text-sm transition-all whitespace-nowrap shrink-0 cursor-pointer",
                     isActive 
-                      ? cn("bg-white text-gray-900 shadow-xs font-semibold", activeTabClassName)
-                      : cn("hover:text-gray-700 hover:text-900 hover:font-medium", tabBtnClassName)
+                      ? cn("bg-card text-foreground shadow-2xs font-semibold", activeTabClassName)
+                      : cn("text-muted-foreground hover:text-foreground hover:bg-muted/60", tabBtnClassName)
                   )}
                 >
                   {tab.icon && (
-                    <span className={isActive ? "text-gray-900" : "text-gray-400 shrink-0"}>
+                    <span className={isActive ? "text-primary" : "text-muted-foreground shrink-0"}>
                       {tab.icon}
                     </span>
                   )}
@@ -229,7 +221,7 @@ export function AdaptiveTabs({
                   {tab.badge !== undefined && (
                     <span className={cn(
                       "ml-1 px-1.5 py-0.5 text-[10px] rounded-full font-mono shrink-0",
-                      isActive ? "bg-gray-900 text-white" : "bg-gray-200 text-gray-600"
+                      isActive ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                     )}>
                       {tab.badge}
                     </span>
@@ -239,16 +231,15 @@ export function AdaptiveTabs({
             })}
           </div>
 
-          {/* Right Gradient Fade & Minimal Chevron Indicator */}
           {showRightScroll && (
-            <div className="absolute right-0 inset-y-0 z-10 flex items-center justify-end pr-0.5 pl-3 bg-gradient-to-l from-gray-200/97 via-gray-200/85 to-transparent pointer-events-none rounded-r-xl">
+            <div className="absolute right-0 inset-y-0 z-10 flex items-center justify-end pr-1 pl-3 bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none rounded-r-lg">
               <button
                 type="button"
                 onClick={() => scrollTabs("right")}
-                className="text-gray-600 hover:text-gray-900 transition-colors pointer-events-auto cursor-pointer focus:outline-none"
+                className="text-muted-foreground hover:text-foreground transition-colors pointer-events-auto cursor-pointer focus:outline-none"
                 aria-label="Scroll right"
               >
-                <ChevronRight className="w-4 h-4 stroke-[3]" />
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
           )}
@@ -258,3 +249,5 @@ export function AdaptiveTabs({
     </div>
   );
 }
+
+export default AdaptiveTabs;

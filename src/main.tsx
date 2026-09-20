@@ -6,16 +6,16 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import EduAsasApp from './App';
 import './index.css';
 
-// Providers na UI Components kutoka kwenye mradi wako
+// Core application providers and components
 import { EduToaster } from '@/components/elements';
 import { AppFeedbackModal, AppConfirmModal } from '@/components/modals';
-import { SystemListener } from './shared/providers';
+import { SystemListener, ThemeProvider } from './shared/providers';
 
-// Sanidi Query Client ya TanStack
+// Configure TanStack Query Client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // Dakika 5
+      staleTime: 1000 * 60 * 5, // 5 minutes
       retry: 1,
       refetchOnWindowFocus: false,
     },
@@ -25,17 +25,19 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('eduasas-app-contents')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <SystemListener>
-        <EduAsasApp />
-        
-        {/* Modals na Toasters za kimfumo */}
-        <AppFeedbackModal />
-        <AppConfirmModal />
-        <EduToaster />
+      <ThemeProvider defaultTheme="system">
+        <SystemListener>
+          <EduAsasApp />
+          
+          {/* System modals and toasts */}
+          <AppFeedbackModal />
+          <AppConfirmModal />
+          <EduToaster />
 
-        {/* Devtools itaonekana kwenye development pekee */}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </SystemListener>
+          {/* DevTools enabled only in development */}
+          <ReactQueryDevtools initialIsOpen={false} />
+        </SystemListener>
+      </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

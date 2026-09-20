@@ -1,35 +1,18 @@
-
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils/helper";
 import { SidebarIcon } from "./SidebarIcon";
 import { useSidebar } from "../useSidebar";
 import { EduTooltip } from "@/components/atoms";
 
-/**
- * Props zinazohitajika na component ya `SidebarLink`.
- */
 interface SidebarLinkProps {
-  /** Jina au anwani inayoelezea kiungo (link) */
   title: string;
-  /** Njia (URL path) ambapo kiungo kinapeleka */
   href: string;
-  /** Component au jina la ikoni inayotumiwa na kiungo hiki */
   icon: any;
-  /** Inafafanua kama kiungo kipo active kwa sasa */
   active?: boolean;
-  /** Idadi ya notifications/taarifa za kuonyeshwa pembeni ya kiungo (optional) */
   badge?: number;
-  /** Inafafanua kama sidebar imekunjwa (collapsed) au la */
   collapsed?: boolean;
 }
 
-/**
- * Component inayowakilisha kiungo kimoja cha menyu kwenye sidebar.
- * 
- * - Inasaidia hali ya `active` kwa kubadilisha rangi ya background na maandishi.
- * - Inaonyesha `badge` ya idadi ya taarifa pindi haijakunjwa (`collapsed = false`).
- * - Inatumia `EduTooltip` kuonyesha jina la kiungo pindi sidebar inapokuwa imekunjwa (`collapsed = true`).
- */
 export function SidebarLink({
   title,
   href,
@@ -38,30 +21,25 @@ export function SidebarLink({
   badge,
   collapsed = false,
 }: SidebarLinkProps) {
-
   const { size } = useSidebar();
-
-  const aciveColor = active ? "blue-600" : "none";
-
   collapsed = size === "minimal";
 
   const link = (
     <Link
       to={href}
       className={cn(
-        "flex items-center w-full h-9 rounded-md transition-colors text-sm font-medium",
+        "flex items-center w-full h-9 rounded-lg transition-colors text-sm font-medium",
         collapsed ? "w-full justify-center shrink-0" : "gap-3 px-3",
         active
-          ? "bg-blue-50 text-blue-600"
-          : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+          ? "bg-primary/10 text-primary font-semibold shadow-2xs"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground"
       )}
     >
       <SidebarIcon
         component={icon}
-        fill={aciveColor}
         className={cn(
-          "shrink-0",
-          active ? "text-primary-600" : "text-gray-700"
+          "shrink-0 transition-colors",
+          active ? "text-primary" : "text-muted-foreground"
         )}
       />
 
@@ -74,8 +52,8 @@ export function SidebarLink({
               className={cn(
                 "min-w-5 h-5 px-1.5 rounded-full text-[11px] flex items-center justify-center font-semibold",
                 active
-                  ? "bg-primary-600 text-white"
-                  : "bg-gray-200 text-gray-700"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
               )}
             >
               {badge}
@@ -96,3 +74,5 @@ export function SidebarLink({
 
   return link;
 }
+
+export default SidebarLink;

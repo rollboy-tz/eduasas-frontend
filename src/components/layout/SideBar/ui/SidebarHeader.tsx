@@ -5,38 +5,13 @@ import { cn } from "@/lib/utils";
 import { EduAsasLogo } from "@/components/elements";
 import { useSidebar } from "../useSidebar";
 
-/**
- * ============================================================================
- * EduAsas Sidebar V2 - Sidebar Header
- * ============================================================================
- *
- * Header ya Sidebar.
- *
- * Majukumu (Responsibilities):
- * - Brand presentation & Workspace identity.
- * - Responsive appearance handling.
- *
- * Haitawali (Non-responsibilities):
- * - Sidebar state mutation directly (uses hook actions instead).
- * - Navigation & Permissions logic.
- *
- * @version 2.2.0
- */
-
 interface SidebarHeaderProps {
-  /** Brand title. */
   title?: string;
-  /** Optional subtitle. */
   subtitle?: string;
-  /** Custom Tailwind CSS classes. */
   className?: string;
-
-  //** Component */
 }
 
 export function SidebarHeader({
-  // title,
-  // subtitle,
   className,
 }: SidebarHeaderProps) {
   const {
@@ -79,7 +54,7 @@ export function SidebarHeader({
   return (
     <header
       className={cn(
-        "group flex shrink-0 items-center py-2 transition-all duration-300",
+        "group flex shrink-0 items-center py-3 transition-all duration-300 border-b border-border/40",
         isMinimal ? "justify-center px-2" : "justify-between px-4 gap-3",
         className
       )}
@@ -94,32 +69,26 @@ export function SidebarHeader({
           <button
             type="button"
             onClick={handleClick}
-            className="hidden group-hover:flex items-center justify-center rounded-md p-1 hover:bg-muted-200 transition-all cursor-pointer duration-300"
+            className="hidden group-hover:flex items-center justify-center rounded-lg p-1.5 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer duration-200"
             aria-label="Toggle Sidebar"
           >
-            <SidebarIcon size={19} className="text-muted-800" />
+            <SidebarIcon size={19} />
           </button>
         </div>
       ) : (
         /* Expanded state: show full brand and toggle icon side-by-side */
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-3">
           <div className="flex items-center justify-between w-full">
             <EduAsasLogo
-              titleClasses="font-heading font-black"
+              titleClasses="font-heading font-bold text-foreground"
             />
             <button
               type="button"
               onClick={handleClick}
-              className="rounded-md p-1 hover:bg-muted-200 transition-all cursor-pointer duration-300"
+              className="rounded-lg p-1.5 hover:bg-muted text-muted-foreground hover:text-foreground transition-all cursor-pointer duration-200"
               aria-label="Toggle Sidebar"
             >
-              <SidebarIcon size={19} className="text-muted-800" />
-            </button>
-          </div>
-
-          <div className="w-full p-1">
-            <button className="bg-white w-full flex items-center h-9 px-2 rounded-md text-sm text-gray-400 font-medium font-medium border border-gray-200 shadow-xs">
-              Reserved button
+              <SidebarIcon size={19} />
             </button>
           </div>
         </div>
@@ -127,3 +96,5 @@ export function SidebarHeader({
     </header>
   );
 }
+
+export default SidebarHeader;

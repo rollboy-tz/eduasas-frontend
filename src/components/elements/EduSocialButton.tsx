@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 
-// --- EDU SOCIAL BUTTON (Imeondolewa 'use client' kwa ajili ya Vite) ---
 interface SocialButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   text?: string;
@@ -24,8 +23,8 @@ export const EduSocialButton = ({
 
   const sizeClasses = {
     sm: showText ? "h-9 px-4 text-sm rounded-md" : "h-9 w-9 rounded-md",
-    md: showText ? "h-10 px-5 text-base md:text-sm rounded-lg" : "h-11 w-11 rounded-lg",
-    lg: showText ? "h-11 px-6 text-base rounded-xl" : "h-13 w-13 rounded-xl",
+    md: showText ? "h-10 px-5 text-base md:text-sm rounded-lg" : "h-10 w-10 rounded-lg",
+    lg: showText ? "h-11 px-6 text-base md:text-sm rounded-lg" : "h-11 w-11 rounded-lg",
   };
 
   const iconSize = {
@@ -46,10 +45,10 @@ export const EduSocialButton = ({
       disabled={disabled || isLoading}
       {...props}
       className={cn(
-        "relative flex items-center justify-center transition-all duration-300 cursor-pointer w-full",
-        "font-bold active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed",
-        "bg-white border border-slate-200 text-slate-700 shadow-sm",
-        "hover:bg-slate-50 hover:border-slate-300",
+        "relative flex items-center justify-center transition-all duration-200 cursor-pointer w-full",
+        "font-semibold active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed",
+        "bg-card border border-border text-foreground shadow-2xs",
+        "hover:bg-muted hover:border-border",
         sizeClasses[size],
         className
       )}
@@ -58,14 +57,14 @@ export const EduSocialButton = ({
         <Spinner />
       ) : (
         <div className={cn(
-          "flex items-center justify-center gap-3",
+          "flex items-center justify-center gap-2.5",
           iconPosition === "right" ? "flex-row-reverse" : "flex-row"
         )}>
           {iconPath && (
-            <div className="relative flex-shrink-0 flex items-center justify-center">
+            <div className="relative shrink-0 flex items-center justify-center">
               <img
                 src={iconPath}
-                alt="google-logo"
+                alt="Social Icon"
                 width={iconSize}
                 height={iconSize}
                 className="object-contain"
@@ -74,7 +73,7 @@ export const EduSocialButton = ({
           )}
 
           {showText && text && (
-            <span className="tracking-tight font-medium">
+            <span className="tracking-tight">
               {text}
             </span>
           )}
@@ -83,3 +82,5 @@ export const EduSocialButton = ({
     </button>
   );
 };
+
+export default EduSocialButton;
