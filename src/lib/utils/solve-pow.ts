@@ -48,10 +48,13 @@ async function computeSha256(message: string): Promise<string> {
  * @returns {Promise<PowResult>} Inarudisha Promise yenye data ya challenge pamoja na solution.
  */
 export async function solvePow(
-  apiUrl: string = import.meta.env.VITE_API_URL || "https://api.eduasas.co.tz"
+  apiUrl?: string
 ): Promise<PowResult> {
+  const rawApiUrl = apiUrl || import.meta.env.VITE_API_URL || "https://api.eduasas.co.tz";
+  const normalizedApiUrl = /^https?:\/\//i.test(rawApiUrl) ? rawApiUrl : `https://${rawApiUrl}`;
+
   // 1. Chukua challenge kutoka kwenye server
-  const response = await fetch(`${apiUrl}/main/pow-challenge`);
+  const response = await fetch(`${normalizedApiUrl}/main/pow-challenge`);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch PoW challenge. HTTP Status: ${response.status}`);

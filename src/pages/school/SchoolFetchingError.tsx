@@ -12,8 +12,6 @@ export const SchoolFetchingError: React.FC<SchoolFetchingErrorProps> = ({
   message,
   onRetry,
 }) => {
-  const currentYear = new Date().getFullYear();
-
   const handleRetry = () => {
     if (onRetry) {
       onRetry();

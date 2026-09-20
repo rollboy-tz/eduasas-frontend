@@ -62,10 +62,6 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), Math.max(min, max));
 }
 
-function fillCss(fill: DocElement extends { type: "shape" } ? never : never): string {
-  return ""; // placeholder, real shape fill handled inline below (kept simple)
-}
-
 interface Guides {
   vertical: number[]; // mm, page-relative x positions
   horizontal: number[]; // mm, page-relative y positions

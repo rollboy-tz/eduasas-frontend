@@ -2,7 +2,6 @@ import { DocumentEditorPage } from "@/lib/document";
 import { 
     LandingPage 
 } from "./";
-import EditorPage from "./documents-demo";
 import GradeGridEditor from "./GradeGridEditor"
 export const LandingRoutes = [
     { path: "/", element: <LandingPage /> },

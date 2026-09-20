@@ -1,0 +1,6 @@
+{
+  "name": "EduAsas",
+  "description": "Next-Gen AI-Powered Multi-School Management Platform for modern educational institutions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -6,6 +6,8 @@ import path from 'path'
 export default defineConfig(({ mode }) => {
   // Pakia env variables kulingana na mode (development, production, beta)
   const env = loadEnv(mode, process.cwd(), '')
+  const rawApiUrl = env.VITE_API_URL || 'https://api.eduasas.co.tz'
+  const targetApiUrl = /^https?:\/\//i.test(rawApiUrl) ? rawApiUrl : `https://${rawApiUrl}`
 
   return {
     plugins: [
@@ -22,11 +24,12 @@ export default defineConfig(({ mode }) => {
     // Mipangilio ya Seva ya local (Development Server & Proxy)
     server: {
       port: 3000,
-      host: true, // Inaruhusu kupatikana kupitia local IP kwenye network yako (mfano: 192.168.x.x)
+      host: '0.0.0.0', // Inaruhusu kupatikana kupitia local IP kwenye network yako (mfano: 192.168.x.x)
+      allowedHosts: true,
       proxy: {
         // Kila ombi linaloanza na '/api' litapelekwa kwenye API server wakati wa local dev
         '/api': {
-          target: env.VITE_API_URL || 'https://api.eduasas.co.tz',
+          target: targetApiUrl,
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, '/main'),

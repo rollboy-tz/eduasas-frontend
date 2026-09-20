@@ -332,7 +332,8 @@ export function parseDomainAndTenant(input?: RequestInputSource): RequestContext
     if (activeStage) stage = activeStage;
 
     const subdomains = parts.filter((p) => !NON_PROD_STAGES.includes(p as CustomStage));
-    const tenant = subdomains.length > 0 ? subdomains[0] : null;
+    const paramTenant = parsedUrl.searchParams.get('tenant');
+    const tenant = subdomains.length > 0 ? subdomains[0] : (paramTenant || null);
     const domainWithStage = activeStage ? `${activeStage}.localhost` : 'localhost';
 
     return {
@@ -348,6 +349,29 @@ export function parseDomainAndTenant(input?: RequestInputSource): RequestContext
       hostname,
       origin,
       rootOrigin: buildRootOrigin(domainWithStage),
+      isCustomDomain: false,
+      isIpAddress: false,
+    };
+  }
+
+  // =========================================================================
+  // GUARD 2.5: CLOUD RUN / AI STUDIO PREVIEW ENVIRONMENT
+  // =========================================================================
+  if (hostname.endsWith('.run.app') || hostname.endsWith('.googleusercontent.com')) {
+    const paramTenant = parsedUrl.searchParams.get('tenant') || null;
+    return {
+      stage: 'local',
+      tenant: paramTenant,
+      subdomains: paramTenant ? [paramTenant] : [],
+      isRootDomain: paramTenant === null,
+      domain: hostname,
+      domainWithStage: hostname,
+      port,
+      protocol: detectedProtocol,
+      hostWithPort,
+      hostname,
+      origin,
+      rootOrigin: origin,
       isCustomDomain: false,
       isIpAddress: false,
     };

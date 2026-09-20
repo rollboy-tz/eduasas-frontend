@@ -39,6 +39,8 @@ export default function EduAsasApp() {
         hostname: fallbackBase,
         origin: `https://${fallbackBase}`,
         rootOrigin: `https://${fallbackBase}`,
+        isCustomDomain: false,
+        isIpAddress: false,
       };
     }
   }, []);

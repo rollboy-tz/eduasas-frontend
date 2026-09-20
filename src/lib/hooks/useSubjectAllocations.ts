@@ -1,5 +1,5 @@
 import { apiFetch } from "../api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 
 export const useSubjectsAllocations = () => {

@@ -1,9 +1,8 @@
-import { EduButton, SmartResponsiveList, SmartTable } from "@/components/elements";
+import { SmartResponsiveList } from "@/components/elements";
 import { EduInput } from "@/components/fields/EduInput";
 import { useSchoolStaffList, useSort, useSearch } from "@/lib/hooks";
 import { FaUserTie } from "react-icons/fa";
-import { HiSortAscending, HiSortDescending } from "react-icons/hi";
-import { Search, User, Briefcase, Shield, MoreVertical, Edit, Eye } from "lucide-react";
+import { Search, Edit, Eye } from "lucide-react";
 import { useState } from "react";
 import { DateUtils } from "@/lib";
 
@@ -35,7 +34,7 @@ export const StaffDirectoryView = () => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const searched = useSearch(staffList, searchTerm);
-    const { sorted, dir, setDir } = useSort(searched, "user.firstName", "asc");
+    const { sorted } = useSort(searched, "user.firstName", "asc");
 
     const getStatusBadge = (status: StaffMember["status"]) => {
         const styles: Record<string, string> = {
@@ -48,7 +47,7 @@ export const StaffDirectoryView = () => {
         };
         return styles[status] || "bg-gray-100 text-gray-700 border-gray-200";
     };
-    const Icon = dir === "asc" ? HiSortDescending : HiSortAscending;
+
     return (
         <div className="w-full flex flex-col gap-3">
             {/* Toolbar section */}
@@ -61,17 +60,6 @@ export const StaffDirectoryView = () => {
                         onChange={(val) => setSearchTerm(val)}
                         className="rounded-md border border-slate-200 shadow-2xs max-w-xs"
                     />
-
-                    {/* <EduButton
-                        variant="secondary"
-                        className="h-10"
-                        onClick={() => {
-                            const sDir = dir === "asc" ? "desc" : "asc";
-                            setDir(sDir);
-                        }}
-                    >
-                        <Icon className="h-6 w-6" />
-                    </EduButton> */}
                 </div>
             </div>
 

@@ -1,9 +1,7 @@
 import { useSubjectsAllocations } from "@/lib/hooks";
 
 export const StaffAllocationView = () => {
-
-    const { subjectsAllocations } = useSubjectsAllocations();
-    
+    useSubjectsAllocations();
 
     return (
         <div>
