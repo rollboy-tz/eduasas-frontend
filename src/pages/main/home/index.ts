@@ -4,5 +4,4 @@ export * from './SchoolsPage';
 export * from './SettingsPage';
 export * from './SchoolSetupPage';
 export * from './StudentPerfomancePgae';
-
-export * from './HomeRoutes';
+export * from './SchoolSwitchPage';

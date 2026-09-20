@@ -10,8 +10,7 @@ import { WorkspaceProvider } from "@/shared/providers";
 import { Outlet } from "react-router-dom";
 
 interface WorkspaceLayoutProps {
-    menuData: MenuGroup[];
-    inContext?: boolean;
+    menuData: MenuGroup[]
 }
 
 export const HomeDashboardLayout = ({ menuData }: WorkspaceLayoutProps) => {

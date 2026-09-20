@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTenant } from '@/shared/providers';
-import { apiMutation, apiFetch } from '@/lib/api';
+import { apiMutation, apiFetch, isApiError } from '@/lib/api';
 
 // Definition ya Response Type kutoka Server
 interface SwitchTenantResponseData {
@@ -49,7 +49,10 @@ export const useSwitchTenant = () => {
         }
 
         return result.data;
+
       } catch (error) {
+        if(isApiError(error)){
+        }
         console.error("Switching error:", error);
         throw error;
       } finally {

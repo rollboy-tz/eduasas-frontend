@@ -40,6 +40,6 @@ export interface RegisteredSchool {
   updatedAt: string;
 }
 
-export interface SchoolRegistrationResponeData {
+export interface SchoolRegistrationResponseData {
   school: RegisteredSchool;
 }

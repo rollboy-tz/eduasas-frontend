@@ -1,25 +1,32 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { DashboardLayout } from '@/layouts/DashboardLayout';
-import SchoolDashboard from '@/pages/school/SchoolDashboard';
-import StudentsPage from '@/pages/school/StudentsPage';
-import { SchoolSubdomainGuard} from '@/layouts/SchoolSubdomainGuard';
-import { SchoolNotFound, SchoolProfilePage } from '@/pages/school';
+import { useRoutes } from "react-router-dom";
+
+import { SchoolConsumerPage, SchoolNotFound } from "@/pages/school";
+import {
+  ProtectedRoutesLayout,
+  SchoolSubdomainGuard
+} from "@/layouts";
+import { SchoolContextRoutes } from "./SchoolcontextsRoutes";
 
 export function SchoolRoutes() {
-  return (
-    <Routes>
-      {/* Layout kuu yenye Sidebar na Navbar */}
-      <Route element={<SchoolSubdomainGuard />} >
-        <Route path="school-not-found" element={<SchoolNotFound />} />
-        <Route element={<DashboardLayout />} >
-          <Route element={<SchoolProfilePage />} index />
-          <Route element={<SchoolDashboard />}  />
-          <Route element={<StudentsPage />} path="students" />
-        </Route>
-
-        {/* Fallback ya kurasa zote ambazo hazipo kwenye School */}
-        <Route path="*" element={<Navigate replace to="/" />} />
-      </Route>
-    </Routes>
-  );
+  return useRoutes([
+    {
+      element: <SchoolSubdomainGuard />,
+      children: [
+        {
+          path: "/school-not-found",
+          element: <SchoolNotFound />
+        },
+        { 
+          path: "/consumer",
+          element: <SchoolConsumerPage />
+        },
+        {
+          element: <ProtectedRoutesLayout />,
+          children: [
+            ...SchoolContextRoutes,
+          ],
+        },
+      ],
+    },
+  ]);
 }

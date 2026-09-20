@@ -197,11 +197,11 @@ export function SmartResponsiveList<T>({
         role="status"
         aria-label="Loading content..."
         className={cn(
-          "bg-card border-border/60 w-full overflow-hidden rounded-xl border shadow-xs",
+          "bg-card border-slate-200/60 w-full overflow-hidden rounded-xl border shadow-xs",
           className
         )}
       >
-        <div className="divide-border/40 divide-y">
+        <div className="divide-slate-200/40 divide-y">
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="flex items-center gap-4 px-5 py-4">
               {enableSelection && (
@@ -254,7 +254,7 @@ export function SmartResponsiveList<T>({
               role="listitem"
               onClick={() => onRowClick?.(item)}
               className={cn(
-                "bg-card border-border/80 relative rounded-xl border p-4 shadow-2xs transition-all duration-200",
+                "relative p-4 shadow-2xs transition-all duration-200",
                 onRowClick && "active:scale-[0.99] cursor-pointer",
                 isSelected && "border-primary/50 bg-primary/30",
                 cardClassName
@@ -263,7 +263,7 @@ export function SmartResponsiveList<T>({
               {/* Top Row: Checkbox + Primary Title + Secondary Badge + Action */}
               <div
                 className={cn(
-                  "flex items-center justify-between gap-2.5 pb-2.5 border-b border-border/40",
+                  "flex items-center justify-between gap-2.5 pb-2.5 border-b border-slate-200/40",
                   cardHeaderClassName
                 )}
               >
@@ -298,7 +298,7 @@ export function SmartResponsiveList<T>({
                       key={i}
                       className={cn(
                         "flex justify-between items-center py-1 text-xs sm:text-sm",
-                        !CollectionHelper.isLast(filteredArray, i) && "border-b border-border/30 pb-2",
+                        !CollectionHelper.isLast(filteredArray, i) && "border-b border-slate-200/30 pb-2",
                         cardRowsClassName,
                         col.cardRowClasses
                       )}
@@ -315,7 +315,7 @@ export function SmartResponsiveList<T>({
 
               {/* View More / View Less Toggle */}
               {hasExpandedFields && (
-                <div className="mt-3 pt-2 border-t border-border/40 flex justify-center">
+                <div className="mt-3 pt-2 border-t border-slate-200/40 flex justify-center">
                   <button
                     type="button"
                     onClick={(e) => {
@@ -341,12 +341,12 @@ export function SmartResponsiveList<T>({
   return (
     <div
       className={cn(
-        "bg-card border-border/70 w-full overflow-hidden rounded-xl border shadow-2xs transition-all",
+        "w-full overflow-hidden transition-all",
         className
       )}
     >
       <div className="w-full overflow-x-auto">
-        <div role="table" className="w-full min-w-full divide-y divide-border/60">
+        <div role="table" className="w-full min-w-full divide-y divide-slate-200/60">
           {/* Table Header */}
           <div
             role="rowgroup"
@@ -380,7 +380,7 @@ export function SmartResponsiveList<T>({
           </div>
 
           {/* Table Body */}
-          <div role="rowgroup" className={cn("divide-y divide-border/40 bg-card", bodyClassName)}>
+          <div role="rowgroup" className={cn("divide-y divide-slate-200/40 bg-card", bodyClassName)}>
             {data.map((item, index) => {
               const id = getKey(item, index);
               const isSelected = selectedSet.has(id);
@@ -471,7 +471,7 @@ function CustomCheckbox({
       onChange={onChange}
       aria-label={ariaLabel}
       className={cn(
-        "accent-primary h-4 w-4 rounded-md border-border/80 text-primary focus:ring-primary/40 cursor-pointer transition-all"
+        "accent-primary h-4 w-4 rounded-md border-slate-200/80 text-primary focus:ring-primary/40 cursor-pointer transition-all"
       )}
     />
   );
@@ -482,7 +482,7 @@ function DefaultEmptyState({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "bg-card border-border/60 text-muted-foreground flex flex-col items-center justify-center rounded-xl border p-12 text-center shadow-2xs",
+        "bg-card border-slate-200/60 text-muted-foreground flex flex-col items-center justify-center rounded-xl border p-12 text-center shadow-2xs",
         className
       )}
     >

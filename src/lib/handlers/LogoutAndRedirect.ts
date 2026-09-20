@@ -3,25 +3,18 @@
  * @description Centralized logout utility for the EduAsas platform.
  * Clears all client-side storage (localStorage, sessionStorage, client cookies), 
  * triggers backend destruction of HttpOnly session cookies, dispatches global logout events, 
- * and safely redirects the user to the sign-in page with an active return callback URL.
+ * and safely redirects the user to a fresh sign-in page without return callbacks (loop-free).
  */
 
 import { api } from "../api";
+import { parseDomainAndTenant } from "@/lib/utils";
 
 /**
  * @function logoutAndRedirect
  * @description
- * Executes a complete, secure session teardown. 
- * Prevents race conditions during browser redirection by using network `keepalive` 
- * for the server logout ping, ensuring HttpOnly cookies are successfully cleared on the backend.
+ * Executes a complete, secure session teardown and redirects cleanly to the root login page.
  * 
  * @returns {Promise<void>} Resolves once cleanup and redirection triggers are initiated.
- * 
- * @example
- * ```ts
- * // Trigger manual logout from user settings menu
- * await logoutAndRedirect();
- * ```
  */
 export const logoutAndRedirect = async (): Promise<void> => {
   // 1. Notify all active listeners across the SPA that a logout has been initiated
@@ -29,12 +22,7 @@ export const logoutAndRedirect = async (): Promise<void> => {
     window.dispatchEvent(new CustomEvent("app:logout"));
   }
 
-  // 2. Capture the current pathname and search query for post-login redirection
-  const currentPath = typeof window !== "undefined" 
-    ? window.location.pathname + window.location.search 
-    : "/home";
-
-  // 3. Purge all client-side web storage
+  // 2. Purge all client-side web storage
   try {
     localStorage.clear();
     sessionStorage.clear();
@@ -42,13 +30,12 @@ export const logoutAndRedirect = async (): Promise<void> => {
     console.error("⚠️ [Logout] Failed to clear local/session storage:", err);
   }
 
-  // 4. Purge all accessible non-HttpOnly client cookies
+  // 3. Purge all accessible non-HttpOnly client cookies
   const purgeClientCookies = () => {
     if (typeof document === "undefined") return;
 
     const cookies = document.cookie.split(";");
     const hostname = window.location.hostname;
-    // Extract root domain for robust cookie clearing (e.g., app.eduasas.co.tz -> .eduasas.co.tz)
     const domainParts = hostname.split(".");
     const rootDomain = domainParts.length > 2 
       ? `.${domainParts.slice(-2).join(".")}` 
@@ -58,7 +45,6 @@ export const logoutAndRedirect = async (): Promise<void> => {
       const eqPos = cookie.indexOf("=");
       const name = eqPos > -1 ? cookie.substring(0, eqPos).trim() : cookie.trim();
 
-      // Expire cookie across standard paths and domains
       const expiredAt = "expires=Thu, 01 Jan 1970 00:00:00 UTC";
       document.cookie = `${name}=; ${expiredAt}; path=/;`;
       document.cookie = `${name}=; ${expiredAt}; path=/; domain=${hostname};`;
@@ -68,37 +54,34 @@ export const logoutAndRedirect = async (): Promise<void> => {
 
   purgeClientCookies();
 
-  // 5. TERMINATE SERVER-SIDE SESSION (HttpOnly Cookies)
-  // CRITICAL FIX: We use native fetch with `keepalive: true` to prevent the browser 
-  // from aborting the logout network request when `window.location.href` triggers navigation.
+  // 4. TERMINATE SERVER-SIDE SESSION (HttpOnly Cookies)
   try {
-    const apiBaseUrl = (import.meta as any).env?.VITE_API_BASE_URL || "/api";
+    const apiBaseUrl = (import.meta as any).env?.VITE_API_BASE_URL || "https://api.eduasas.co.tz";
     
     if (typeof fetch === "function") {
-      await fetch(`${apiBaseUrl}/auth/logout`, {
+      await fetch(`${apiBaseUrl}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
-        keepalive: true, // Inahakikisha ombi linafika server hata kama browser inafunga/inabadilisha ukurasa
+        keepalive: true,
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
       });
     } else {
-      // Fallback to axios instance if fetch isn't available
       await api.post('/auth/logout');
     }
   } catch (err) {
     console.error("⚠️ [Logout] Server logout ping failed, proceeding with client-side teardown...", err);
   }
 
-  // 6. SAFE REDIRECTION TO SIGN-IN
-  // Delay slightly (50ms) to allow any final synchronous event loops to clear, 
-  // then redirect with the encoded callback parameter.
+  // 5. FRESH REDIRECTION TO SIGN-IN (No return_url loop risk)
   setTimeout(() => {
     if (typeof window !== "undefined") {
-      const encodedCallback = encodeURIComponent(currentPath);
-      window.location.href = `/login?return_url=${encodedCallback}`;
+      const context = parseDomainAndTenant();
+      
+      // Inapeleka moja kwa moja kwenye root login page (mfano: http://localhost:3000/login au https://eduasas.co.tz/login)
+      window.location.href = `${context.rootOrigin}/login`;
     }
   }, 50);
 };

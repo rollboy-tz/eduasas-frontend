@@ -85,8 +85,6 @@ export function AppFeedbackModal() {
      * or assigns appropriate defaults based on the feedback type.
      */
     const resolveContent = () => {
-        if (data.title) return { title: data.title, message: data.message };
-
         if (data.message && data.message.includes(":")) {
             const [extractedTitle, ...rest] = data.message.split(":");
             return {
@@ -94,6 +92,8 @@ export function AppFeedbackModal() {
                 message: rest.join(":").trim()
             };
         }
+
+        if (data.title) return { title: data.title, message: data.message };
 
         const defaults = {
             error: "Ohh! Sorry!",
@@ -182,13 +182,13 @@ export function AppFeedbackModal() {
                                         <Button
                                             key={i}
                                             variant={act.variant}
-                                            size="sm"
+                                            size="md"
                                             onClick={() => {
                                                 act.onClick();
                                                 setData(null);
                                             }}
                                             className={cn(
-                                                "text-base h-9",
+                                                "text-sm h-9",
                                                 data.actions && data.actions.length > 1 ? "flex-1 md:flex-none" : "min-w-30"
                                             )}
 

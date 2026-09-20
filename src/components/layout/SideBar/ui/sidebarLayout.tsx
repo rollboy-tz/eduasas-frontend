@@ -54,19 +54,18 @@ export function SidebarLayout({
 
       {/* Main Layout Area */}
       <section
-        className="flex min-w-0 flex-1 flex-col px-2 sm:px-4 md:px-6 lg:px-8 transition-[margin] duration-300 ease-out"
+        className="flex min-w-0 flex-1 flex-col transition-[margin] duration-300 ease-out"
         style={{ marginLeft: contentOffset }}
       >
         {/* Sticky Header Section */}
-        {header && (
-          <header className="sticky top-0 z-40 shrink-0 mb-1">
-            {header}
-          </header>
-        )}
+        {header && ( <> {header} </> )}
 
         {/* Scrollable Main Content Area */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden px-2 sm:px-4 md:px-6 lg:px-8 py-3">
           {children}
+
+          {/* Spacer */}
+        <div className="inline w-full min-h-10"/>
         </main>
       </section>
     </div>

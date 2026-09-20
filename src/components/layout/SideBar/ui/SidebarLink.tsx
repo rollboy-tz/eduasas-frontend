@@ -41,7 +41,7 @@ export function SidebarLink({
 
   const { size } = useSidebar();
 
-  const aciveColor = active ? "blue-500" : "none";
+  const aciveColor = active ? "blue-600" : "none";
 
   collapsed = size === "minimal";
 
@@ -49,11 +49,11 @@ export function SidebarLink({
     <Link
       to={href}
       className={cn(
-        "flex items-center w-full h-8 rounded-md transition-colors text-sm font-medium",
+        "flex items-center w-full h-9 rounded-md transition-colors text-sm font-medium",
         collapsed ? "w-full justify-center shrink-0" : "gap-3 px-3",
         active
-          ? "bg-primary-50 text-primary-600"
-          : "text-muted-600 hover:bg-muted-200 hover:text-muted-900"
+          ? "bg-blue-50 text-blue-600"
+          : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
       )}
     >
       <SidebarIcon
@@ -61,7 +61,7 @@ export function SidebarLink({
         fill={aciveColor}
         className={cn(
           "shrink-0",
-          active ? "text-primary-600" : "text-muted-700"
+          active ? "text-primary-600" : "text-gray-700"
         )}
       />
 
@@ -75,7 +75,7 @@ export function SidebarLink({
                 "min-w-5 h-5 px-1.5 rounded-full text-[11px] flex items-center justify-center font-semibold",
                 active
                   ? "bg-primary-600 text-white"
-                  : "bg-muted-200 text-muted-700"
+                  : "bg-gray-200 text-gray-700"
               )}
             >
               {badge}

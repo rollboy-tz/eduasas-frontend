@@ -70,9 +70,9 @@ export interface EduTimeInputProps {
 }
 
 const sizeStyles: Record<NonNullable<EduTimeInputProps["size"]>, string> = {
-  sm: "h-9 lg:h-8 px-2 text-sm",
-  md: "h-10 lg:h-9 px-3 text-base",
-  lg: "h-11 lg:h-10 px-3.5",
+  sm: "h-9 px-2 text-sm",
+  md: "h-10 px-3 text-base",
+  lg: "h-11 px-3.5",
 };
 
 export function EduTimeInput({
@@ -404,16 +404,16 @@ export function EduTimeInput({
         )}
 
       {hasError ? (
-        <p id={errorId} role="alert" className={cn("text-sm text-red-600", classNames?.errorText)}>
+        <p id={errorId} role="alert" className={cn("text-xs text-red-600", classNames?.errorText)}>
           {finalError}
         </p>
       ) : successMessage && displayValue && !hasError ? (
-        <p className="text-sm text-green-600">{successMessage}</p>
+        <p className="text-xs text-green-600">{successMessage}</p>
       ) : helperText ? (
-        <p id={helperId} className={cn("text-sm text-gray-500", classNames?.helperText)}>
+        <p id={helperId} className={cn("text-xs text-gray-500", classNames?.helperText)}>
           {helperText}
         </p>
-      ) : null}
+      ) : <div className="w-full h-2 block"></div>}
 
       {/* @ts-ignore: styled-jsx props */}
       <style jsx global>{`

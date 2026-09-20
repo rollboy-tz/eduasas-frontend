@@ -1,5 +1,4 @@
-export * from './BlogPage';
-export * from './FeaturePage';
+export * from './documents-demo';
 export * from './FeedBackPage';
 export * from './LandingPage';
 export * from './PoliciesPage';

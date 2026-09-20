@@ -108,7 +108,7 @@ export function SmartFlexTable<T>({
   return (
     <div
       className={cn(
-        "card-surface bg-card border-border/40 relative w-full overflow-hidden rounded-lg border shadow-sm",
+        "relative w-full overflow-hidden rounded-lg",
         className
       )}
     >

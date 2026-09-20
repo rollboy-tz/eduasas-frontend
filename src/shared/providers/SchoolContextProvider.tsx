@@ -115,10 +115,7 @@ export function SchoolContextProvider({ children }: { children: React.ReactNode 
 
     // 1. EXTRACT & PARSE HOSTNAME (Subdomain Architecture Enforcement)
     const domainContext = useMemo<RequestContext>(() => {
-        if (typeof window === "undefined") {
-            return { stage: "prod", tenant: null, isRootDomain: true, domain: "eduasas.co.tz" };
-        }
-        return parseDomainAndTenant(window.location.hostname);
+        return parseDomainAndTenant();
     }, []);
 
     // 2. TANSTACK QUERY ENGINE (Single-Flight Tenant Data Fetching)
@@ -130,7 +127,7 @@ export function SchoolContextProvider({ children }: { children: React.ReactNode 
         error, 
         refetch 
     } = useQuery<SchoolContextResponse, Error>({
-        queryKey: ["school-subdomain-context", domainContext.tenant],
+        queryKey: ["school-context-provider", domainContext.tenant],
         queryFn: () => apiFetch<SchoolContextResponse>("/school/context"),
         enabled: !domainContext.isRootDomain && !!domainContext.tenant,
         staleTime: 1000 * 60 * 5, // Context data remains fresh for 5 minutes
@@ -222,12 +219,6 @@ export function SchoolContextProvider({ children }: { children: React.ReactNode 
     // =========================================================
     if (status === "error" && typeof window !== "undefined") {
         const errAny = error as any;
-        
-        // Dynamically configure protocol (http for local development, https for secure beta/production)
-        const isLocal = domainContext.stage === "local";
-        const protocol = isLocal ? "http" : "https";
-        const port = isLocal && window.location.port ? `:${window.location.port}` : "";
-        const rootHomeUrl = `${protocol}://${domainContext.domain}${port}/home`;
 
         showFeedback({
             title: `Workspace Sync Error (${errAny?.statusCode || 500})`,
@@ -235,8 +226,8 @@ export function SchoolContextProvider({ children }: { children: React.ReactNode 
             message: errAny?.message || "Critical failure verifying school context session.",
             actions: [
                 { 
-                    label: "Abort & Exit Portal", 
-                    onClick: () => { window.location.href = rootHomeUrl; }, 
+                    label: "Abort & Exit workspace", 
+                    onClick: () => { window.location.href = `${domainContext.rootOrigin}/home`; }, 
                     variant: "danger" 
                 },
                 { 

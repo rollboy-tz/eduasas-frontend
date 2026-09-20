@@ -30,6 +30,8 @@ interface SidebarHeaderProps {
   subtitle?: string;
   /** Custom Tailwind CSS classes. */
   className?: string;
+
+  //** Component */
 }
 
 export function SidebarHeader({
@@ -100,18 +102,26 @@ export function SidebarHeader({
         </div>
       ) : (
         /* Expanded state: show full brand and toggle icon side-by-side */
-        <div className="flex items-center justify-between w-full">
-          <EduAsasLogo
-            titleClasses="font-heading font-black"
-          />
-          <button
-            type="button"
-            onClick={handleClick}
-            className="rounded-md p-1 hover:bg-muted-200 transition-all cursor-pointer duration-300"
-            aria-label="Toggle Sidebar"
-          >
-            <SidebarIcon size={19} className="text-muted-800" />
-          </button>
+        <div className="w-full flex flex-col gap-2">
+          <div className="flex items-center justify-between w-full">
+            <EduAsasLogo
+              titleClasses="font-heading font-black"
+            />
+            <button
+              type="button"
+              onClick={handleClick}
+              className="rounded-md p-1 hover:bg-muted-200 transition-all cursor-pointer duration-300"
+              aria-label="Toggle Sidebar"
+            >
+              <SidebarIcon size={19} className="text-muted-800" />
+            </button>
+          </div>
+
+          <div className="w-full p-1">
+            <button className="bg-white w-full flex items-center h-9 px-2 rounded-md text-sm text-gray-400 font-medium font-medium border border-gray-200 shadow-xs">
+              Reserved button
+            </button>
+          </div>
         </div>
       )}
     </header>

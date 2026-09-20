@@ -57,7 +57,7 @@ export function SchoolDataProvider({ children }: { children: React.ReactNode }):
 
   // Fetch school context scoped strictly to the active tenant ID and protected by initialization gates
   const { data, isLoading, isError, error, refetch } = useQuery<SchoolContextResponse, Error>({
-    queryKey: ["school-subdomain-context-data", tenantId],
+    queryKey: ["schoo-data-provider", tenantId],
     queryFn: async (): Promise<SchoolContextResponse> => {
       const result = await apiFetch<SchoolContextResponse>("/school/context");
 

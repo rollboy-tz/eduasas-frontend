@@ -43,7 +43,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
 
   return (
     <div className={cn(
-      "pointer-events-auto max-w-md trancate py-1.5 px-3 rounded-lg shadow-lg flex items-center justify-between gap-4",
+      "pointer-events-auto max-w-sm trancate p-3 rounded-lg shadow-lg flex items-center justify-between gap-4",
       toast.type === "error" && "bg-red-700 text-red-50",
       toast.type === "success" && "bg-green-700 text-green-50",
       toast.type === "warning" && "bg-yellow-700 text-yellow-50",
@@ -53,7 +53,7 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
     )}>
       <div className="flex items-center gap-3">
         {toast.type === 'loading' && <div className="animate-spin h-4 w-4 border-2 border-yellow-700 rounded-full border-t-transparent" />}
-        <p className="text-base lg:text-sm font-medium">{toast.message}</p>
+        <p className="text-sm font-semibold leading-5">{toast.message}</p>
       </div>
 
       {/* Close Button */}

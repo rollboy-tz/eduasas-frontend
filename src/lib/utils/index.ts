@@ -1,5 +1,6 @@
 export * from './ClientDevice';
 export * from './DateUtils';
+export * from './Validate';
 export * from './collection-helper';
 export * from './contact';
 export * from './data-utils';
@@ -7,5 +8,6 @@ export * from './enhence';
 export * from './error-codes';
 export * from './helper';
 export * from './solve-pow';
+export * from './spreadsheet-io';
 export * from './string-utils';
-export * from './subdomains.utils';
+export * from './domains';

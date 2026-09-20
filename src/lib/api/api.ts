@@ -32,7 +32,7 @@ declare module "axios" {
    CONSTANTS
    ========================================================= */
 
-const API_URL = "/api"; // Base URL ya API, inatumika na Axios instance
+const API_URL = "/api"; // Base URL ya API, inatumika na Axios instance - vite ataibadilisa kuwa /main
 const isDev = import.meta.env.VITE_APP_STAGE !== "production";
 
 /** Hard ceiling on how long we'll wait for a session refresh before
@@ -309,7 +309,7 @@ api.interceptors.response.use(
       if (IMMEDIATE_LOGOUT_ACTIONS.includes(action)) {
         hardLogout();
         // Ilikuwa `Promise.reject(apiResponse)` — object ghafi, si ApiError.
-        // apiMutation/apiFetch's isApiError() ingeikosa hii kabisa na
+        // apiMutation/apiFetch's isApiError() ingeikosa hii kabisa na  
         // ujumbe halisi wa backend ungepotea kwenye fallback yao ya mwisho.
         return Promise.reject(new ApiError(apiResponse));
       }
@@ -382,7 +382,7 @@ api.interceptors.response.use(
           const eventName = action === "RE_AUTHENTICATE" ? "eduasas:re-authenticate" : "eduasas:logout";
           window.dispatchEvent(
             new CustomEvent(eventName, {
-              detail: { message: responseData?.message || "Authentication required", status, requestId },
+              detail: { message: responseData?.message || "Authentication required", statusCode: responseData?.statusCode, requestId },
             })
           );
         }

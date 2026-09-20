@@ -1,10 +1,8 @@
 // path: src/components/layout/HeaverV2/LeftHeaderContents.tsx
 
-'use client';
-
 import { useIsMobileView } from "@/lib/store"; // Au hook yako ya mobile view
 import { useSidebar } from "../SideBar";
-import { Sidebar } from "lucide-react";
+import { HiMenuAlt1 } from "react-icons/hi";
 import { useWorkspace } from "@/shared/providers";
 
 export const LeftHeaderContents = () => {
@@ -23,12 +21,12 @@ export const LeftHeaderContents = () => {
           className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
           aria-label="Fungua Menu"
         >
-          <Sidebar size={18} />
+          <HiMenuAlt1 size={23} />
         </button>
       )}
 
       {/* Dynamic Page Title kinachobadilika kulingana na ukurasa uliofunguka */}
-      <h3 className="font-bold text-sm text-slate-800 tracking-tight">
+      <h3 className="font-bold text-lg text-gray-600 tracking-5">
         {pageTitle}
       </h3>
     </div>

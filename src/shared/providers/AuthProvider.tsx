@@ -13,6 +13,7 @@ import { TenantProvider } from "./TenantProvider";
 import { SchoolDataProvider } from "./SchoolDataProvider";
 import { getUserKey } from "@/lib/utils";
 import { EduScreenLoader } from "@/components/elements";
+import { showFeedback } from "@/components/modals";
 
 /**
  * @interface AuthContextType
@@ -32,9 +33,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * preventing unnecessary network overhead.
  */
 const PUBLIC_ROUTES = new Set([
-  "/login", 
-  "/register", 
-  "/password", 
+  "/login",
+  "/register",
+  "/password",
   "/verify",
   "/",
 ]);
@@ -76,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       // 1. HARD PURGE: Clear all TanStack query caches to prevent memory data leaks
       queryClient.clear();
-      
+
       // 2. Clear persistent web storage
       localStorage.clear();
       sessionStorage.clear();
@@ -95,9 +96,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
      EVENT LISTENERS - "The Sync Engine"
      ------------------------------------------------------- */
   useEffect(() => {
-    /**
-     * Handles state updates when a new session event is broadcasted.
-     */
     const handleNewSession = () => {
       const activeKey = getUserKey();
       queryClient.clear();
@@ -105,15 +103,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAuthenticated(true);
     };
 
+    // Captures session expiration events and displays an enterprise-grade strict security feedback modal
+    const handleReAuthenticate = (event: Event) => {
+      if (isLoggingOut.current) return;
+
+      const customEvent = event as CustomEvent<{ message?: string; statusCode?: number }>;
+      const errorMsg = customEvent.detail?.message || "Your session has expired or your security token is invalid. Please sign in again to continue.";
+
+      showFeedback({
+        type: "error",
+        isStrict: true,
+        title: "Session Expired",
+        message: errorMsg,
+        actions: [
+          {
+            variant: "secondary",
+            label: "Sign In",
+            onClick: async () => {
+              isLoggingOut.current = true;
+              queryClient.clear();
+              localStorage.clear();
+              sessionStorage.clear();
+              await logoutAndRedirect();
+            }
+          }
+        ]
+      });
+    };
+
     if (typeof window !== "undefined") {
       window.addEventListener("eduasas:login", handleNewSession as EventListener);
       window.addEventListener("eduasas:logout", handleLogout as EventListener);
+      window.addEventListener("eduasas:re-authenticate", handleReAuthenticate as EventListener);
     }
 
     return () => {
       if (typeof window !== "undefined") {
         window.removeEventListener("eduasas:login", handleNewSession as EventListener);
         window.removeEventListener("eduasas:logout", handleLogout as EventListener);
+        window.removeEventListener("eduasas:re-authenticate", handleReAuthenticate as EventListener);
       }
     };
   }, [handleLogout, queryClient]);
@@ -159,7 +187,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Display screen loader during initial session validation on protected routes
   if (isLoading && !isPublicRoute) {
-    return <EduScreenLoader loadingText="A moment please"/>;
+    return <EduScreenLoader loadingText="A moment please" />;
   }
 
   return (

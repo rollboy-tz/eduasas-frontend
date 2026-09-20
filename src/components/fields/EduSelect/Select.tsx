@@ -69,9 +69,9 @@ export interface SelectProps<T extends Record<string, any>, K extends keyof T = 
 }
 
 const sizeStyles: Record<NonNullable<SelectProps<any>["size"]>, string> = {
-  sm: "h-10 lg: px-2 text-sm",
-  md: "h-11 lg:  px-3 text-base",
-  lg: "h-12 lg: px-3.5 text-base",
+  sm: "h-9 px-2 text-sm",
+  md: "h-10 px-3 text-base",
+  lg: "h-11 px-3.5",
 };
 
 function EduSelect<T extends Record<string, any>, K extends keyof T = keyof T>({

@@ -1,0 +1,27 @@
+{
+    "endpoints": [
+        {
+            "path": "/school/classes/:classId/subjects",
+            "method": "POST",
+            "desc": "Assign subjects tu multiple students support bulk",
+            "body": { "schoolSubjectIds": "string[]" }
+        },
+        {
+            "path": "/schools/classes/:classId/subjects/re-assign",
+            "method": "PATCH",
+            "desc": "Re-assign class subjects",
+            "body": { "classSubjectIds": "string[]" }
+        },
+        {
+            "path": "/schools/classes/subjects/reassign-stream",
+            "method": "PATCH",
+            "desc": "Get student subjects in class",
+            "body": { "classSubjectId": "string", "newStreamId": "string | null" }
+        },
+        {
+            "path": "/school/classes/:classId/subjects",
+            "method": "GET",
+            "desc": "Get subject students in class"
+        }
+    ]
+}

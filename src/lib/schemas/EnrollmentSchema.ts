@@ -50,21 +50,21 @@ export const enrollSchema = z.object({
       .string()
       .min(25, "Please select a valid class section")
       .max(28, "Invalid Section identifier"),
-    
+
     // Fallback logic friendly stream selector
     streamId: z
       .string()
       .optional()
       .nullable()
       .transform((val) => (val === "" ? null : val)),
-    
+
     entryYear: z
       .union([z.string(), z.number()])
       .transform((val) => Number(val))
       .refine((year) => !isNaN(year) && year >= 2000 && year <= 2100, {
         message: "Please enter a valid entry academic year",
       }),
-    
+
     premsNumber: z
       .string()
       .trim()
@@ -95,18 +95,39 @@ export const enrollSchema = z.object({
         .string()
         .trim()
         .min(3, "Guardian's full name is required"),
+
       phone: z
         .string()
         .trim()
-        .min(10, "Phone number must be at least 10 digits")
-        .max(15, "Phone number is too long"),
-      email: z
-        .string()
-        .email("Please provide a valid email address")
         .optional()
         .nullable()
-        .or(z.literal(""))
-        .transform((val) => (val === "" ? null : val)),
+        .transform((value) => {
+          const normalized = value?.trim();
+          return normalized ? normalized : null;
+        })
+        .refine(
+          (value) => value === null || (value.length >= 10 && value.length <= 15),
+          {
+            message: "Phone number must be between 10 and 15 characters",
+          }
+        ),
+
+      email: z
+        .string()
+        .trim()
+        .optional()
+        .nullable()
+        .transform((value) => {
+          const normalized = value?.trim();
+          return normalized ? normalized : null;
+        })
+        .refine(
+          (value) => value === null || z.string().email().safeParse(value).success,
+          {
+            message: "Please provide a valid email address",
+          }
+        ),
+
       homeAddress: z
         .string()
         .trim()
@@ -115,10 +136,20 @@ export const enrollSchema = z.object({
         .nullable()
         .or(z.literal(""))
         .transform((val) => (val === "" ? null : val)),
+
       relationship: z
         .string()
         .trim()
         .default("PARENT"),
+    })
+    .superRefine((guardian, ctx) => {
+      if (!guardian.phone && !guardian.email) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Please provide at least one contact method: phone number or email address.",
+          path: ["phone"],
+        });
+      }
     })
     .optional()
     .nullable(),

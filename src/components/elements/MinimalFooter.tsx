@@ -1,27 +1,16 @@
 import React from "react";
-import { Sparkles, ExternalLink, Heart } from "lucide-react";
+import { ExternalLink, Heart } from "lucide-react";
 
 export const MinimalFooter: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer>
-      <div>
-        {/* Sehemu ya Juu: AI Badge & Main Branding Statement */}
-        <div>
-          <div>
-            <Sparkles />
-            <span>Powered by Next-Gen AI & Distributed Architecture</span>
-          </div>
-          <p>
-            EduAsas continuously adapts to your institution's workflow, delivering lightning-fast insights and seamless multi-tenant performance.
-          </p>
-        </div>
+    <footer className="w-full p-3 bg-white/90 border-t border-slate-100">
+      <div className="flex flex-col md:flex-row justify-around w-full">
 
         {/* Sehemu ya Chini: Links ndogo, Copyright na Rollboy Services */}
-        <div>
           <div>
-            <ul>
+            <ul className="flex gap-3 text-blue-300 font-medium">
               <li>
                 <a href="/privacy">Privacy</a>
               </li>
@@ -48,7 +37,6 @@ export const MinimalFooter: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </footer>
   );
 };

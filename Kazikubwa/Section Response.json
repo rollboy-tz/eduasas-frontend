@@ -1,0 +1,20 @@
+{
+    "status": "success",
+    "message": "Section configuration provisioned or merged successfully.",
+    "action": "NOTIFY_ONLY",
+    "data": [
+        {
+            "id": "01M261FGV0H28GZY15SHQ5QDP4",
+            "schoolUId": "01M0N0FDYQB3TZABHB1Q6K8EB8",
+            "classId": "01M0N0KDD1FVQWBD88KMA0K6Q3",
+            "streamId": "01M14ZZWK7RXGQETHGD22NMEAT",
+            "name": "GOLD D",
+            "capacity": 50,
+            "classTeacherId": null,
+            "createdAt": "2026-09-10T19:12:42.694Z",
+            "updatedAt": "2026-09-10T16:12:42.722Z"
+        }
+    ],
+    "metadata": null,
+    "timestamp": "2026-09-10T16:12:42.801Z"
+}

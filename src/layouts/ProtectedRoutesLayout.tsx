@@ -23,6 +23,22 @@ import { JSX } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/shared/providers";
 import { EduScreenLoader } from "@/components/elements";
+import { parseDomainAndTenant } from "@/lib";
+
+
+/**
+ * `ProtectedRoutesLayout`
+ * Component that wrapp other routes with protected boundary
+ * @returns 
+ */
+export const ProtectedRoutesLayout = (): JSX.Element => {
+  return (
+    <AuthProvider>
+      <ProtectedRoutes />
+    </AuthProvider>
+  )
+}
+
 
 /**
  * @function ProtectedRoute
@@ -32,9 +48,10 @@ import { EduScreenLoader } from "@/components/elements";
  * 
  * @returns {JSX.Element} The rendered protected route outlet or redirect/loading element.
  */
-export const ProtectedRoutes = (): JSX.Element => {
+export const ProtectedRoutes = (): JSX.Element | null => {
   const { isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
+  const { tenant, rootOrigin } = parseDomainAndTenant()
 
   // 1. Session Verification & Hydration Phase
   if (isLoading) {
@@ -45,6 +62,11 @@ export const ProtectedRoutes = (): JSX.Element => {
 
   // 2. Authentication Enforcement & Interception
   if (!isAuthenticated) {
+
+    if(tenant) {
+      window.location.href = `${rootOrigin}/login`;
+      return (<></>)
+    }
     // Preserve the attempted target URL in router state for seamless post-login redirection
     return (
       <Navigate
@@ -58,11 +80,3 @@ export const ProtectedRoutes = (): JSX.Element => {
   // 3. Authorized Workspace Access Resolution
   return <Outlet />;
 };
-
-export const ProtectedRoutesLayout = (): JSX.Element => {
-  return (
-    <AuthProvider>
-      <ProtectedRoutes />
-    </AuthProvider>
-  )
-}

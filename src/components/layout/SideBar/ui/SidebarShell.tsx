@@ -36,8 +36,9 @@ export function SidebarShell({ children, className }: SidebarShellProps) {
   const isDocked = variant === "docked";
   const isFloating = variant === "floating";
 
-  const width =
-    size === "expanded" ? SIDEBAR_WIDTH.expanded : SIDEBAR_WIDTH.minimal;
+  const sWidth = size === "expanded" ? SIDEBAR_WIDTH.expanded : SIDEBAR_WIDTH.minimal;
+
+  const width = isFloating ? sWidth + 40 : sWidth;
 
   const shouldHide = device === "mobile" && isFloating && !isOpen;
 
@@ -45,14 +46,14 @@ export function SidebarShell({ children, className }: SidebarShellProps) {
     <aside
       style={{ width }}
       className={cn(
-        "z-50 flex flex-col bg-white backdrop-blur-xl",
+        "z-50 flex flex-col bg-white backdrop-blur-xs",
         "transition-[width,transform] duration-300 ease-out",
 
         // Docked Mode Layout
-        isDocked && "fixed left-0 inset-y-0 border-r border-border",
+        isDocked && "fixed left-0 inset-y-0 border-r border-slate-100 bg-gray-100/60",
 
         // Floating Mode Layout
-        isFloating && "fixed left-3 top-2 bottom-2 rounded-xl bg-white shadow-2xl",
+        isFloating && "fixed left-3 top-2 bottom-2 rounded-xl bg-white/90 shadow-2xl",
 
         // Hide animation kwa ajili ya mobile drawer
         shouldHide && "-translate-x-[120%]",

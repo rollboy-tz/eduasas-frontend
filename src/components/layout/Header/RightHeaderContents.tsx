@@ -2,7 +2,8 @@
 import { useIsMobileView } from "@/lib/store"
 //import { useBadges } from "@/lib/hooks"
 import { useProfilePanel } from "../ProfilePanel"
-import { CommandIcon, Search, User } from "lucide-react"
+import { CommandIcon, Search } from "lucide-react"
+import { FaUser } from "react-icons/fa";
 
 export const RightHeaderContents = () => {
     const isMobile = useIsMobileView();
@@ -26,11 +27,11 @@ export const RightHeaderContents = () => {
 
 
             {/* User avatar point */}
-            <button className="flex h-7 items-center bg-white rounded-md shadow-sm gap-1 px-1 cursor-pointer"
+            <button className="place-items-center bg-white rounded-full shadow-sm gap-1 px-1.5 cursor-pointer"
                 onClick={toggleProfilePanel}
             >
-                <div className="rounded-full hover:bg-primary-50 p-1">
-                    <User size={16} fill="muted-900" />
+                <div className="rounded-full hover:bg-primary-50 text-slate-500 hover:text-slate-800 h-8 w-8">
+                    <FaUser size={23} />
                 </div>
             </button>
 

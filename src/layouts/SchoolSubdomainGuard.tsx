@@ -78,7 +78,7 @@ export const SchoolSubdomainGuard: React.FC = () => {
   }, [tenantSlug]);
 
   if (loading) {
-    return <EduScreenLoader loadingText="Fetching school profile..." />;
+    return <EduScreenLoader loadingText="Fetching school profile" />;
   }
 
   if (errorType === "network_error") {

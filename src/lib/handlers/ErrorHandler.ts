@@ -121,8 +121,12 @@ export const ERROR_ACTIONS = {
 export interface ErrorOptions {
     /** Whether to log the error code to the console in development/production. Defaults to true. */
     logError?: boolean;
+
     /** Optional custom override message to display in the toast or session storage. */
     message?: string;
+
+    /** Error title */
+    
 }
 
 /* =========================================================

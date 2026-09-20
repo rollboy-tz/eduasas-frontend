@@ -10,7 +10,7 @@ export interface InputLabelProps {
 
 export const InputLabel = ({ required = false, label, className, htmlFor = "text" }: InputLabelProps) => {
     return (
-        <label htmlFor={htmlFor} className={cn("text-base lg:text-sm text-muted-600", className)}>
+        <label htmlFor={htmlFor} className={cn("text-base lg:text-sm font-medium text-slate-500", className)}>
             {label}{required && <Required />}
         </label>
     )

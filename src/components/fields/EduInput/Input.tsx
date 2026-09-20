@@ -45,9 +45,9 @@ export interface InputProps {
 }
 
 const sizeStyles: Record<NonNullable<InputProps["size"]>, string> = {
-  sm: "h-9 lg:h-8 px-2 text-sm",
-  md: "h-10 lg:h-9 px-3 text-base",
-  lg: "h-11 lg:h-10 px-3.5",
+  sm: "h-9 px-2 text-sm",
+  md: "h-10 px-3 text-base",
+  lg: "h-11 px-3.5",
 };
 
 export const Input = ({

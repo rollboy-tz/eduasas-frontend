@@ -85,15 +85,15 @@ export function SidebarCollapsible({
                   className={cn(
                     "flex h-9 w-9 items-center justify-center rounded-lg transition-all duration-200 cursor-pointer",
                     hasActiveChild
-                      ? "bg-primary-100/80 text-primary-600 dark:bg-primary-950/40"
-                      : "text-muted-500 hover:bg-muted-100 hover:text-muted-900"
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                   )}
                 >
                   <SidebarIcon
                     component={icon}
                     className={cn(
-                      "h-5 w-5 shrink-0 transition-colors",
-                      hasActiveChild ? "text-primary-600" : "text-muted-600"
+                      "shrink-0 transition-colors",
+                      hasActiveChild ? "text-blue-600" : "text-gray-600"
                     )}
                   />
                 </button>
@@ -104,7 +104,7 @@ export function SidebarCollapsible({
               {/* Premium Modern Popout Card */}
               <div className="min-w-[200px] rounded-xl border border-border/60 bg-white p-1.5 shadow-xl backdrop-blur-md">
                 {/* Popout Header Title */}
-                <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-400 border-b border-border/40 mb-1">
+                <div className="px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gray-400 border-b border-border/40 mb-1">
                   {title}
                 </div>
 
@@ -122,8 +122,8 @@ export function SidebarCollapsible({
                         className={cn(
                           "flex items-center h-8 px-2.5 rounded-lg text-xs font-medium transition-all duration-150",
                           active
-                            ? "bg-primary-500 text-white shadow-sm"
-                            : "text-muted-600 hover:bg-muted-100 hover:text-muted-900"
+                            ? "bg-blue-500 text-white shadow-sm"
+                            : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                         )}
                       >
                         {child.title}
@@ -143,16 +143,15 @@ export function SidebarCollapsible({
           className={cn(
             "flex items-center justify-between w-full h-9 px-3 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer group",
             hasActiveChild
-              ? "bg-primary-50/80 text-primary-600 font-semibold"
-              : "text-muted-600 hover:bg-muted-100 hover:text-muted-900"
+              ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
           )}
         >
           <div className="flex items-center gap-3 truncate">
             <SidebarIcon
               component={icon}
               className={cn(
-                "h-4 w-4 shrink-0 transition-colors",
-                hasActiveChild ? "text-primary-600" : "text-muted-500 group-hover:text-muted-800"
+                "shrink-0 transition-colors",
+                hasActiveChild ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
               )}
             />
             <span className="truncate">{title}</span>
@@ -161,8 +160,8 @@ export function SidebarCollapsible({
           <ChevronDown
             size={16}
             className={cn(
-              "shrink-0 text-muted-400 transition-transform duration-200",
-              open && "rotate-180 text-muted-700"
+              "shrink-0 text-gray-400 transition-transform duration-300",
+              open && "rotate-180 text-gray-700"
             )}
           />
         </button>
@@ -170,7 +169,7 @@ export function SidebarCollapsible({
 
       {/* EXPANDED SUB-ITEMS AREA */}
       {!isCollapsed && open && (
-        <div className="mt-1 ml-4 pl-3 border-l-2 border-border/60 space-y-1">
+        <div className="mt-1 ml-4 pl-3 border-l-2 border-gray-200 space-y-1">
           {items.map((child) => {
             const active =
               currentPath === child.href ||
@@ -183,13 +182,13 @@ export function SidebarCollapsible({
                 className={cn(
                   "flex items-center h-8 px-3 rounded-lg text-xs font-medium transition-all duration-150 relative group",
                   active
-                    ? "bg-primary-500 text-white font-semibold shadow-xs"
-                    : "text-muted-600 hover:bg-muted-100 hover:text-muted-900"
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
                 )}
               >
                 {/* Visual Active Indicator Bar */}
                 {active && (
-                  <span className="absolute -left-[15px] top-1/2 -translate-y-1/2 w-1 h-4 bg-primary-500 rounded-r-full" />
+                  <span className="absolute -left-[15px] top-1/2 -translate-y-1/2 w-1 h-4 bg-blue-500 rounded-r-full" />
                 )}
                 <span className="truncate">{child.title}</span>
               </Link>

@@ -8,17 +8,18 @@ import {
     SchoolsPage,
     SettingsPage,
     AddSchoolPage,
-    SetupSchoolPage,
-} from "./"
+    SchoolSetupPage,
+    SwitchSchoolPage
+} from "@/pages/main/home"
 import { HomeMockData } from "@/components/layout/SideBar"
-
 
 export const HomeRoutes = [
     {
         element: <ProtectedRoutesLayout />,
         children: [
             { path: "/schools/add", element: <AddSchoolPage /> },
-            { path: "/schools/setup", element: <SetupSchoolPage /> },
+            { path: "/schools/setup", element: <SchoolSetupPage /> },
+            { path: "/schools/switch-workspace", element: <SwitchSchoolPage /> },
             {
                 element: <HomeDashboardLayout menuData={HomeMockData} />,
                 children: [

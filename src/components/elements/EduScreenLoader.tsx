@@ -10,7 +10,7 @@ export function EduScreenLoader({
   showBrandName = true 
 }: ScreenLoderProps) {
   return (
-    <div className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-background overflow-hidden">
+    <div className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-gray-50 overflow-hidden transition-all duration-300">
       
       <div className="relative flex flex-col items-center gap-4">
         {/* Animated Wrapper */}

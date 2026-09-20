@@ -9,6 +9,7 @@ import './index.css';
 // Providers na UI Components kutoka kwenye mradi wako
 import { EduToaster } from '@/components/elements';
 import { AppFeedbackModal, AppConfirmModal } from '@/components/modals';
+import { SystemListener } from './shared/providers';
 
 // Sanidi Query Client ya TanStack
 const queryClient = new QueryClient({
@@ -24,6 +25,7 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('eduasas-app-contents')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <SystemListener>
         <EduAsasApp />
         
         {/* Modals na Toasters za kimfumo */}
@@ -33,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('eduasas-app-contents')!).render(
 
         {/* Devtools itaonekana kwenye development pekee */}
         <ReactQueryDevtools initialIsOpen={false} />
+      </SystemListener>
     </QueryClientProvider>
   </React.StrictMode>
 );

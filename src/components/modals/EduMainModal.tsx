@@ -49,7 +49,7 @@ export function EduMainModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 backdrop-blur-md"
+            className="absolute inset-0 backdrop-blur-sm bg-black/5"
           />
 
           {/* 2. Main CONTAINER */}
@@ -59,7 +59,7 @@ export function EduMainModal({
             exit={{ opacity: 0, y: 30, scale: 0.98 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className={cn("relative w-full", sizeClasses[size],
-              "bg-card border rounded-3xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.5)] overflow-hidden",
+              "border border-slate-200 rounded-3xl shadow-xl overflow-hidden",
               className
 
             )}
@@ -71,7 +71,7 @@ export function EduMainModal({
                 <button
                   onClick={onClose}
                   disabled={isLoading}
-                  className="p-2 rounded-full bg-card hover:bg-red-500/20 hover:text-red-500 text-muted-foreground transition-all disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
+                  className="p-2 rounded-full hover:bg-red-500/20 hover:text-red-500 text-muted-500 transition-all disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
                 >
                   <X size={20} />
                 </button>

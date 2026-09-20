@@ -27,3 +27,5 @@ USER NO 5
 Name: Rama Mnachileka
 name: rama@gmail.com
 pass: 
+
+http://localhost:3000/schools/setup?schoolId=ESCH-260908001

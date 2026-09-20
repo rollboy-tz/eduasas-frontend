@@ -94,3 +94,44 @@ export interface ClassSections {
         updatedAt: string;
     }
 }
+
+export interface SectionTeacher {
+  id: string;
+  staffNumber: string;
+  designation: string | null;
+  firstName: string;
+  lastName: string;
+  displayName: string | null;
+}
+
+export interface StreamInfo {
+  id: string;
+  name: string;
+  code: string;
+}
+
+export interface ParentClassInfo {
+  id: string;
+  classCode: string;
+  displayName: string;
+  shortName: string;
+  classCategory: string; // Mfano: "O-LEVEL", "A-LEVEL", etc.
+}
+
+export interface TimestampsInfo {
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SectionProfile {
+  id: string;
+  name: string;
+  streamId: string | null;
+  stream: StreamInfo | null;
+  capacity: number;
+  currentStudents: number;
+  availableSlots: number;
+  classTeacher: SectionTeacher | null;
+  parentClass: ParentClassInfo;
+  timestamps: TimestampsInfo;
+}

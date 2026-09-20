@@ -1,3 +1,4 @@
+export * from './SchoolConumer';
 export * from './SchoolDashboard';
 export * from './SchoolFetchError';
 export * from './SchoolFetchingError';

@@ -17,7 +17,7 @@ const { size } = useSidebar()
           className="flex items-center w-full gap-3"
         >
           {/* Maandishi ya Group (e.g., ACADEMICS) */}
-          <span className="text-[9px] text-muted-500 font-medium select-none">{title}</span>
+          <span className="text-[11px] text-gray-500 font-semibold select-none">{title}</span>
 
           
           {/* Mstari wa Kulia unaoziba nafasi iliyobaki */}
@@ -28,7 +28,7 @@ const { size } = useSidebar()
         <motion.div 
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="h-[1px] w-full bg-foreground/10 mx-auto" 
+          className="h-[1px] w-full bg-gray-300 mx-auto" 
         />
       )}
     </div>

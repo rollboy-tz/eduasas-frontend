@@ -3,5 +3,6 @@ export * from './ReactQueryProvider';
 export * from './SchoolContextProvider';
 export * from './SchoolDataProvider';
 export * from './SchoolProfileProvider';
+export * from './SystemListener';
 export * from './TenantProvider';
 export * from './WorkspaceProvider';

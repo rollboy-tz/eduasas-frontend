@@ -13,6 +13,7 @@ export * from './SchoolSetupTypes';
 export * from './SchoolStaffListTypes';
 export * from './SidebarMenuTypes';
 export * from './StudentEnrollmentTypes';
+export * from './StudentsTypes';
 export * from './SubjectsTypes';
 export * from './UserProfileTypes';
 export * from './UserSchoolsTypes';

@@ -49,7 +49,7 @@ export const useMenuData = (context: 'user' | 'school' = 'user', id?: string) =>
   };
 
   return {
-    menuGroups: data || [],
+    menuData: data || [],
     isLoading,
     isError: error,
     refreshSidebarMenu,

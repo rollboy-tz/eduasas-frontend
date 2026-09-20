@@ -38,7 +38,7 @@ export const Header = () => {
       root.style.setProperty("--header-padding-bottom", `${paddingBottom}px`);
       root.style.setProperty("--header-margin-top", `${marginTop}px`);
       root.style.setProperty("--header-margin-bottom", `${marginBottom}px`);
-      
+
       // Variable kuu kwa ajili ya Sticky Offset
       root.style.setProperty("--header-total-outer-height", `${totalOuterHeight}px`);
     };
@@ -61,15 +61,14 @@ export const Header = () => {
   }, []);
 
   return (
-    <header
-      ref={headerRef}
-      className="w-full flex items-center justify-between py-2"
-    >
-      {/* Sehemu ya Kushoto: Mobile Menu Button & Dynamic Title */}
-      <LeftHeaderContents />
+    <header ref={headerRef} className="w-full header sticky top-0 z-40 shrink-0 md:px-none md:bg-tranparent">
+      <div className="w-full bg-white md:bg-gray-50 flex items-center rounded-b-xl shadow-sm md:shadow-none py-2 px-2 sm:px-4 md:px-6 lg:px-8">
+        {/* Sehemu ya Kushoto: Mobile Menu Button & Dynamic Title */}
+        <LeftHeaderContents />
 
-      {/* Sehemu ya Kulia: Search, Badges, na Profile Panel */}
-      <RightHeaderContents />
+        {/* Sehemu ya Kulia: Search, Badges, na Profile Panel */}
+        <RightHeaderContents />
+      </div>
     </header>
   );
 };

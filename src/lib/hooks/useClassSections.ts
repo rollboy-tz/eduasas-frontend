@@ -8,7 +8,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ClassProfile, ClassSections, SectionsMutation } from "@/types";
+import { SectionProfile, ClassSections, SectionsMutation, SectionStudent } from "@/types";
 import { apiFetch, apiMutation } from "@/lib/api";
 
 
@@ -31,14 +31,13 @@ export function useClassSections(classId?: string) {
 
   // 2. Mutation Engine (CREATE CSECTION)
   const createMutation = useMutation({
-    mutationFn: (payload: { classCode: string }) =>
+    mutationFn: (payload: SectionsMutation) =>
       apiMutation("post", `/school/classes/${classId}/sections`, payload),
-
     onSuccess: () => queryClient.invalidateQueries({ queryKey: CLASS_SECTIONS_KEY }),
   });
 
-  const createClassSection = async (classCode: string) => {
-    return await createMutation.mutateAsync({ classCode });
+  const createClassSection = async (payload: SectionsMutation) => {
+    return await createMutation.mutateAsync(payload);
   };
 
   return {
@@ -52,7 +51,7 @@ export function useClassSections(classId?: string) {
 }
 
 /**
- * ### useClassProfile
+ * ### useSectionProfile
  * Hook ya kuvuta Section Profile mahususi na kufanya edits/updates.
  * @param classId - ID au Identifier ya Class iliyotokana na classCode
  */
@@ -61,9 +60,9 @@ export function useSectionProfile(sectionId?: string) {
   const SECTION_PROFILE_KEY = ["class-section-profile", sectionId];
 
   // 1. Fetching Single Section Profile (GET)
-  const { data, isLoading, error } = useQuery<ClassProfile>({
+  const { data, isLoading, error } = useQuery<SectionProfile>({
     queryKey: SECTION_PROFILE_KEY,
-    queryFn: () => apiFetch<ClassProfile>(`/school/classes/sections/${sectionId}`),
+    queryFn: () => apiFetch<SectionProfile>(`/school/classes/sections/${sectionId}`),
     enabled: !!sectionId, // Inapiga API iwapo tu classId ipo
     staleTime: 1000 * 60 * 2,
   });
@@ -78,12 +77,12 @@ export function useSectionProfile(sectionId?: string) {
     },
   });
 
-  const updateSection = async (payload: SectionsMutation ) => {
+  const updateSection = async (payload: SectionsMutation) => {
     return await updateMutation.mutateAsync(payload);
   };
 
   return {
-    SectionProfile: data,
+    sectionProfile: data,
     isLoading,
     isError: error,
     updateSection,
@@ -91,4 +90,32 @@ export function useSectionProfile(sectionId?: string) {
     refreshProfile: () =>
       queryClient.invalidateQueries({ queryKey: SECTION_PROFILE_KEY }),
   };
+}
+
+
+
+/**
+ * *useSectionStudesnts
+ */
+
+export function useSectionStudents(sectionId?: string) {
+  const queryClient = useQueryClient();
+  const SECTION_STUDENTS_KEY = ["section-students", sectionId];
+
+  // 1. Fetching Students registered under this section (GET)
+  const { data, isLoading, error } = useQuery<SectionStudent[]>({
+    queryKey: SECTION_STUDENTS_KEY,
+    queryFn: () => apiFetch<SectionStudent[]>(`/school/classes/sections/${sectionId}/students`),
+    enabled: !!sectionId, // Inapiga API iwapo tu classId ipo
+    staleTime: 1000 * 60 * 2,
+  });
+
+  return {
+    sectionStudents: data,
+    loadingStudents: isLoading,
+    isError: error,
+    refreshStudents: () =>
+      queryClient.invalidateQueries({ queryKey: SECTION_STUDENTS_KEY }),
+  };
+
 }

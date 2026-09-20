@@ -1,5 +1,5 @@
 
-export default function SchoolDashboard() {
+export const SchoolDashboard = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-800 mb-4">Dashboard Kuu ya Shule</h1>

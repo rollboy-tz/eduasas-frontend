@@ -1,4 +1,5 @@
 export * from './Checkboxes';
+export * from './EduLinearLoader';
 export * from './InputLabel';
 export * from './Skeleton';
 export * from './alert';
@@ -6,7 +7,7 @@ export * from './avatar';
 export * from './button';
 export * from './card';
 export * from './copyButton';
-export * from './eduMainLoader';
+export * from './EduMainLoader';
 export * from './eduServerButton';
 export * from './eduTooltip';
 export * from './profileHeader';
