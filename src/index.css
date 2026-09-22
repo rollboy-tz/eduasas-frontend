@@ -1,35 +1,206 @@
 @import "tailwindcss";
 
+/* ============================================================
+   EDUASAS — LIGHT THEME
+   Zinc foundation + Blue-600 primary
+============================================================ */
+
 @theme {
-  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-heading: var(--font-heading), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* ==========================================================
+     PRIMARY — BLUE
+     Blue is reserved for actions, links and active states.
+  ========================================================== */
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-primary-300: #93c5fd;
+  --color-primary-600: #2563eb;
+  --color-primary-900: #1e3a8a;
+
+  /* ==========================================================
+     SEMANTIC UI TOKENS
+  ========================================================== */
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* ==========================================================
+     TYPOGRAPHY
+  ========================================================== */
+
+  --font-sans: var(
+    --font-inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif
+  );
+
+  --font-heading: var(
+    --font-heading,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif
+  );
+
+  --font-mono: var(
+    --font-mono,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace
+  );
 }
 
 @layer base {
-  body {
-    font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    min-height: 100vh;
-    letter-spacing: -0.01em;
-  }
-  /* 2. Headings Fallback (Unaweza kutumia class kama .font-heading kwenye tags zako za h1, h2, n.k) */
-  .font-heading {
-    font-family: var(--font-heading), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  :root {
+    /* ========================================================
+       FOUNDATION
+    ======================================================== */
+
+    --background: #fafafa;
+    --foreground: #18181b;
+
+    /* ========================================================
+       SURFACES
+       Background is slightly softer than cards so surfaces
+       remain visually separated without heavy shadows.
+    ======================================================== */
+
+    --card: #ffffff;
+    --card-foreground: #18181b;
+
+    --popover: #ffffff;
+    --popover-foreground: #18181b;
+
+    /* ========================================================
+       PRIMARY
+    ======================================================== */
+
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+
+    /* ========================================================
+       NEUTRAL UI
+    ======================================================== */
+
+    --secondary: #f4f4f5;
+    --secondary-foreground: #27272a;
+
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+
+    /* ========================================================
+       ACCENT
+       Kept neutral. Primary blue is used explicitly for
+       actions and active states.
+    ======================================================== */
+
+    --accent: #f4f4f5;
+    --accent-foreground: #27272a;
+
+    /* ========================================================
+       DESTRUCTIVE
+    ======================================================== */
+
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+
+    /* ========================================================
+       BORDERS / INPUTS
+    ======================================================== */
+
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+
+    /* ========================================================
+       FOCUS
+    ======================================================== */
+
+    --ring: #2563eb;
+
+    /* ========================================================
+       RADIUS
+    ======================================================== */
+
+    --radius: 0.5rem;
   }
 
-  /* 3. Code / Mono Fallback */
-  .font-mono {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* ==========================================================
+     BASE
+  ========================================================== */
+
+  html {
+    min-height: 100%;
+    scrollbar-gutter: stable;
   }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* ==========================================================
+     SCROLLBAR
+     Thin, quiet and layout-stable.
+  ========================================================== */
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+    scrollbar-color: rgba(113, 113, 122, 0.35) transparent;
   }
 
   *::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+    width: 6px;
+    height: 6px;
   }
 
   *::-webkit-scrollbar-track {
@@ -37,28 +208,80 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background: rgba(100, 116, 139, 0.35);
+    background: rgba(113, 113, 122, 0.32);
+    border: 1px solid transparent;
     border-radius: 999px;
+    background-clip: padding-box;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 116, 139, 0.55);
+    background: rgba(113, 113, 122, 0.52);
+    background-clip: padding-box;
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* ==========================================================
+     SCROLL CONTAINERS
+     Use this class on major app-level scroll areas.
+     
+     Example:
+       <main className="app-scroll">...</main>
+  ========================================================== */
+
+  .app-scroll {
+    scrollbar-gutter: stable;
+    overflow: auto;
+  }
+
+  /* ==========================================================
+     HORIZONTAL SCROLL AREAS
+  ========================================================== */
+
+  .scroll-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /* ==========================================================
+     VERTICAL SCROLL AREAS
+  ========================================================== */
+
+  .scroll-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /* ==========================================================
+     OPTIONAL: HIDE SCROLLBAR
+     Keeps scrolling functional while hiding the visual bar.
+  ========================================================== */
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
-/* ======================================================
-   ANIMATIONS
-====================================================== */
+/* ============================================================
+   KEYFRAME ANIMATIONS
+============================================================ */
 
 @keyframes shimmer {
-
   100% {
     transform: translateX(100%);
   }
 }
 
 @keyframes rotate {
-
   100% {
     transform: rotate(360deg);
   }
@@ -81,6 +304,31 @@
   }
 }
 
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
 .animate-rotate {
   animation: rotate 2s linear infinite;
 }
@@ -93,34 +341,8 @@
   animation: dash 1.5s ease-in-out infinite;
 }
 
-@keyframes shake {
-
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  25% {
-    transform: translateX(-5px);
-  }
-
-  75% {
-    transform: translateX(5px);
-  }
-}
-
 .animate-shake {
   animation: shake 0.2s linear;
-}
-
-@keyframes shrink {
-  from {
-    width: 100%;
-  }
-
-  to {
-    width: 0%;
-  }
 }
 
 .animate-shrink {

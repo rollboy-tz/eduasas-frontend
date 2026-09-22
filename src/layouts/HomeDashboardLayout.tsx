@@ -8,6 +8,7 @@ import ProfilePanel from "@/components/layout/ProfilePanel/ProfilePanel";
 import { ProfilePanelProvider } from "@/components/layout/ProfilePanel";
 import { WorkspaceProvider } from "@/shared/providers";
 import { Outlet } from "react-router-dom";
+import DashLayout from "@/components/layout/DashLayout";
 
 interface WorkspaceLayoutProps {
     menuData: MenuGroup[]
@@ -20,12 +21,9 @@ export const HomeDashboardLayout = ({ menuData }: WorkspaceLayoutProps) => {
                 <SearchProvider>
                     <ProfilePanelProvider>
                         <GlobalSearch />
-                        <div className="flex flex-1 flex-col overflow-hidden relative">
-                            <SidebarLayout data={menuData} header={<Header />}>
-                                <Outlet />
-                            </SidebarLayout>
-                            <ProfilePanel />
-                        </div>
+                        <DashLayout>
+                            <Outlet />
+                        </DashLayout>
                     </ProfilePanelProvider>
                 </SearchProvider>
             </SidebarProvider>
